@@ -1,0 +1,31 @@
+#pragma once
+
+#include "../board/square.hpp"
+#include "../game/player.hpp"
+#include "command.hpp"
+
+namespace chess {
+
+class Board;
+class GamePlayers;
+class AppController;
+class ConsoleWriter;
+
+class CommandFactory {
+public:
+    CommandFactory(Board& board, GamePlayers& game_players, AppController& controller, ConsoleWriter& console_writer)
+        : board_{&board}, game_players_{&game_players}, controller_{&controller}, console_writer_{&console_writer} { }
+
+    Command create_help_command() const;
+    Command create_quit_command() const;
+    Command create_undo_command() const;
+    Command create_redo_command() const;
+
+private:
+    Board* board_;
+    GamePlayers* game_players_;
+    AppController* controller_;
+    ConsoleWriter* console_writer_;
+};
+
+}  // namespace chess
