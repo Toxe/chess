@@ -12,6 +12,8 @@ add_library(lib_chess
     command/command_factory.hpp
     game/game_players.cpp
     game/game_players.hpp
+    game/pieces.cpp
+    game/pieces.hpp
     game/player.cpp
     game/player.hpp
     game/win_conditions.cpp

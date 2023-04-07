@@ -6,6 +6,7 @@ if(BUILD_TESTING)
         board_square.cpp
         command_command.cpp
         game_game_players.cpp
+        game_pieces.cpp
         game_player.cpp
         game_win_conditions.cpp
         grid_coords.cpp
