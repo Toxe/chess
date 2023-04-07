@@ -16,6 +16,7 @@ if(BUILD_TESTING)
         output_player_side.cpp
         output_print_board.cpp
         output_print_game_over.cpp
+        output_print_piece.cpp
         output_print_square.cpp
     )
 

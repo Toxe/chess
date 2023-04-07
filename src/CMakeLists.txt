@@ -33,6 +33,8 @@ add_library(lib_chess
     output/print_board.hpp
     output/print_game_over.cpp
     output/print_game_over.hpp
+    output/print_piece.cpp
+    output/print_piece.hpp
     output/print_square.cpp
     output/print_square.hpp
 )
