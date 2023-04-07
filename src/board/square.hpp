@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <string_view>
 
 #include "../grid/coords.hpp"
 
@@ -8,9 +9,10 @@ namespace chess {
 
 struct Square : public Coords<short> {
     Square() : Coords{} { }
-    Square(short col_on_board, short row_on_board);
-    Square(int col_on_board, int row_on_board) : Square(static_cast<short>(col_on_board), static_cast<short>(row_on_board)) { }
-    Square(std::size_t col_on_board, std::size_t row_on_board) : Square(static_cast<short>(col_on_board), static_cast<short>(row_on_board)) { }
+    Square(short board_col, short board_row);
+    Square(int board_col, int board_row) : Square(static_cast<short>(board_col), static_cast<short>(board_row)) { }
+    Square(std::size_t board_col, std::size_t board_row) : Square(static_cast<short>(board_col), static_cast<short>(board_row)) { }
+    Square(std::string_view text);  // "c5"
 };
 
 }  // namespace chess
