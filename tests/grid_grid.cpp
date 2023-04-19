@@ -1124,6 +1124,34 @@ TEST_CASE("grid/grid")
                     CHECK(grid.at(2, 1) == 300);
                 }
             }
+
+            SECTION("operator==")
+            {
+                Grid<int> grid = create_grid_with_test_values(4, 5);
+                CHECK(grid == create_grid_with_test_values(4, 5));
+                CHECK((grid == create_grid_with_test_values(5, 4)) == false);
+
+                Grid<int> empty_grid{4, 4};
+                Grid<int> grid2 = empty_grid;
+                CHECK(grid2 == empty_grid);
+
+                grid2[1][2] = 42;
+                CHECK((grid2 == empty_grid) == false);
+            }
+
+            SECTION("operator!=")
+            {
+                Grid<int> grid = create_grid_with_test_values(4, 5);
+                CHECK((grid != create_grid_with_test_values(4, 5)) == false);
+                CHECK(grid != create_grid_with_test_values(5, 4));
+
+                Grid<int> empty_grid{4, 4};
+                Grid<int> grid2 = empty_grid;
+                CHECK((grid2 != empty_grid) == false);
+
+                grid2[1][2] = 42;
+                CHECK(grid2 != empty_grid);
+            }
         }
     }
 

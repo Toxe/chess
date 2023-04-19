@@ -15,8 +15,6 @@ public:
 
     [[nodiscard]] static Board create_with_default_pieces();
     [[nodiscard]] static Board create_from_letter_data(std::initializer_list<std::string_view> data);
-    //[[nodiscard]] static Board create_from_FEN(std::string_view line);
-    //[[nodiscard]] static Board create_from_EPD(std::string_view line);
 
     [[nodiscard]] int cols() const { return squares_.width(); }
     [[nodiscard]] int rows() const { return squares_.height(); }
@@ -25,6 +23,9 @@ public:
     void change_piece(Square square, Piece piece);
 
     [[nodiscard]] bool empty_square(Square square) const;
+
+    bool operator==(const Board& other) const = default;
+    bool operator!=(const Board& other) const = default;
 
 private:
     Grid<Piece, Square> squares_;

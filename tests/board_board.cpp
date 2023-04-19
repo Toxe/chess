@@ -111,6 +111,50 @@ TEST_CASE("game/board")
 
         check_for_default_pieces(board);
     }
+
+    SECTION("comparison")
+    {
+        const Board board_with_default_pieces = Board::create_with_default_pieces();
+
+        SECTION("operator==")
+        {
+            Board board = Board::create_with_default_pieces();
+
+            CHECK(board == board_with_default_pieces);
+
+            board.change_piece(Square{"c7"}, no_piece);
+            board.change_piece(Square{"e2"}, no_piece);
+            board.change_piece(Square{"c5"}, Piece{'p'});
+            board.change_piece(Square{"e3"}, Piece{'P'});
+
+            CHECK(board == Board::create_from_letter_data({
+                      "rnbqkbnr",
+                      "pp-ppppp",
+                      "--------",
+                      "--p-----",
+                      "--------",
+                      "----P---",
+                      "PPPP-PPP",
+                      "RNBQKBNR",
+                  }));
+
+            CHECK((board == board_with_default_pieces) == false);
+        }
+
+        SECTION("operator!=")
+        {
+            Board board = Board::create_with_default_pieces();
+
+            CHECK((board != board_with_default_pieces) == false);
+
+            board.change_piece(Square{"c7"}, no_piece);
+            board.change_piece(Square{"e2"}, no_piece);
+            board.change_piece(Square{"c5"}, Piece{'p'});
+            board.change_piece(Square{"e3"}, Piece{'P'});
+
+            CHECK(board != board_with_default_pieces);
+        }
+    }
 }
 
 }  // namespace chess

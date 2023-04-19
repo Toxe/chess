@@ -385,6 +385,9 @@ public:
     auto operator[](const size_type pos) { return row(pos); }
     auto operator[](const size_type pos) const { return row(pos); }
 
+    bool operator==(const Grid<T, CoordsType>& other) const = default;
+    bool operator!=(const Grid<T, CoordsType>& other) const = default;
+
 private:
     size_type cols_;
     size_type rows_;
