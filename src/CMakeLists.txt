@@ -10,6 +10,7 @@ add_library(lib_chess
     command/command.hpp
     command/command_factory.cpp
     command/command_factory.hpp
+    game/castling_ability.hpp
     game/game_players.cpp
     game/game_players.hpp
     game/pieces.cpp
@@ -25,6 +26,10 @@ add_library(lib_chess
     input/eval_input.hpp
     input/receive_player_command.cpp
     input/receive_player_command.hpp
+    notation/fen.cpp
+    notation/fen.hpp
+    notation/fen_detail.cpp
+    notation/fen_detail.hpp
     output/console_writer.cpp
     output/console_writer.hpp
     output/player_side.cpp

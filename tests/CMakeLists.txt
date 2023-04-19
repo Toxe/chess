@@ -5,6 +5,7 @@ if(BUILD_TESTING)
         board_board.cpp
         board_square.cpp
         command_command.cpp
+        game_castling_ability.cpp
         game_game_players.cpp
         game_pieces.cpp
         game_player.cpp
@@ -13,6 +14,7 @@ if(BUILD_TESTING)
         grid_grid.cpp
         grid_gridcell.cpp
         input_eval_input.cpp
+        notation_fen.cpp
         output_player_side.cpp
         output_print_board.cpp
         output_print_game_over.cpp
