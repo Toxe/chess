@@ -34,7 +34,7 @@ char print_piece_letter(const Piece piece)
     }
 }
 
-const char* print_piece_symbol(const Piece piece)
+std::string_view print_piece_symbol(const Piece piece)
 {
     assert(piece.player != Player::none && piece.type != PieceType::none);
 

@@ -1,5 +1,4 @@
 #include "catch2/catch_test_macros.hpp"
-#include "catch2/matchers/catch_matchers_string.hpp"
 
 #include "../src/output/print_piece.hpp"
 
@@ -26,19 +25,19 @@ TEST_CASE("output/print_piece")
 
     SECTION("print_piece_symbol()")
     {
-        CHECK_THAT(print_piece_symbol(Piece{'p'}), Catch::Matchers::Equals("♙"));
-        CHECK_THAT(print_piece_symbol(Piece{'n'}), Catch::Matchers::Equals("♘"));
-        CHECK_THAT(print_piece_symbol(Piece{'b'}), Catch::Matchers::Equals("♗"));
-        CHECK_THAT(print_piece_symbol(Piece{'r'}), Catch::Matchers::Equals("♖"));
-        CHECK_THAT(print_piece_symbol(Piece{'q'}), Catch::Matchers::Equals("♕"));
-        CHECK_THAT(print_piece_symbol(Piece{'k'}), Catch::Matchers::Equals("♔"));
+        CHECK(print_piece_symbol(Piece{'p'}) == "♙");
+        CHECK(print_piece_symbol(Piece{'n'}) == "♘");
+        CHECK(print_piece_symbol(Piece{'b'}) == "♗");
+        CHECK(print_piece_symbol(Piece{'r'}) == "♖");
+        CHECK(print_piece_symbol(Piece{'q'}) == "♕");
+        CHECK(print_piece_symbol(Piece{'k'}) == "♔");
 
-        CHECK_THAT(print_piece_symbol(Piece{'P'}), Catch::Matchers::Equals("♟"));
-        CHECK_THAT(print_piece_symbol(Piece{'N'}), Catch::Matchers::Equals("♞"));
-        CHECK_THAT(print_piece_symbol(Piece{'B'}), Catch::Matchers::Equals("♝"));
-        CHECK_THAT(print_piece_symbol(Piece{'R'}), Catch::Matchers::Equals("♜"));
-        CHECK_THAT(print_piece_symbol(Piece{'Q'}), Catch::Matchers::Equals("♛"));
-        CHECK_THAT(print_piece_symbol(Piece{'K'}), Catch::Matchers::Equals("♚"));
+        CHECK(print_piece_symbol(Piece{'P'}) == "♟");
+        CHECK(print_piece_symbol(Piece{'N'}) == "♞");
+        CHECK(print_piece_symbol(Piece{'B'}) == "♝");
+        CHECK(print_piece_symbol(Piece{'R'}) == "♜");
+        CHECK(print_piece_symbol(Piece{'Q'}) == "♛");
+        CHECK(print_piece_symbol(Piece{'K'}) == "♚");
     }
 }
 

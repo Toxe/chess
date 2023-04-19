@@ -4,7 +4,7 @@
 
 namespace chess {
 
-const char* player_side(const Player player)
+std::string_view player_side(const Player player)
 {
     assert(player_is_valid(player));
 
