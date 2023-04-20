@@ -1,5 +1,6 @@
 #include "fen_detail.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <stdexcept>
 #include <string>
