@@ -21,8 +21,8 @@ struct Piece {
     constexpr Piece(Player p, PieceType t) : player{p}, type{t} { }
     explicit Piece(char letter);
 
-    bool operator==(const Piece other) const { return other.player == player && other.type == type; }
-    bool operator!=(const Piece other) const { return !(*this == other); }
+    bool operator==(const Piece& other) const = default;
+    bool operator!=(const Piece& other) const = default;
 };
 
 constexpr Piece no_piece{Player::none, PieceType::none};
