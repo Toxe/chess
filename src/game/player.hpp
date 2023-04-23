@@ -2,7 +2,7 @@
 
 namespace chess {
 
-enum class Player {
+enum class Player : char {
     none = 0,
     white = 1,
     black = 2

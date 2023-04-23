@@ -4,7 +4,7 @@
 
 namespace chess {
 
-enum class PieceType {
+enum class PieceType : char {
     none = 0,
     pawn,
     knight,
