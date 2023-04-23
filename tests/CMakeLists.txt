@@ -7,6 +7,7 @@ if(BUILD_TESTING)
         command_command.cpp
         game_castling_ability.cpp
         game_game_players.cpp
+        game_move.cpp
         game_pieces.cpp
         game_player.cpp
         game_win_conditions.cpp
@@ -18,6 +19,7 @@ if(BUILD_TESTING)
         output_player_side.cpp
         output_print_board.cpp
         output_print_game_over.cpp
+        output_print_move.cpp
         output_print_piece.cpp
         output_print_square.cpp
     )
