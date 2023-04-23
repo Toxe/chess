@@ -1,7 +1,7 @@
 #include "commands.hpp"
 
 #include <cstdlib>
-#include <string>
+#include <string_view>
 
 #include "../app/app_controller.hpp"
 #include "../game/game_players.hpp"
@@ -9,12 +9,11 @@
 
 namespace chess {
 
-// TODO: description
 Command HelpCommand(ConsoleWriter* console_writer)
 {
     return Command{
         [=]() {
-            const std::string output = R"(
+            const std::string_view output = R"(
 Enter moves like "b2b4" or "g8f6".
 
 (?), (h), (help): show help
