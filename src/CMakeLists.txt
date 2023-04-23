@@ -48,7 +48,7 @@ set_target_properties(lib_chess PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(lib_chess PUBLIC cxx_std_20)
 target_compile_options(lib_chess PRIVATE ${SANITIZER_COMPILE_OPTIONS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS})
 target_link_options(lib_chess PRIVATE ${SANITIZER_LINK_OPTIONS})
-target_link_libraries(lib_chess PRIVATE ${SANITIZER_LINK_LIBRARIES} fmt::fmt scn::scn)
+target_link_libraries(lib_chess PRIVATE ${SANITIZER_LINK_LIBRARIES} fmt::fmt scn::scn tl::expected)
 target_include_directories(lib_chess INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # main executable

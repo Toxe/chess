@@ -18,6 +18,10 @@
         {
             "name": "scnlib",
             "version>=": "1.0"
+        },
+        {
+            "name": "tl-expected",
+            "version>=": "2022-11-24"
         }
     ]
 }
