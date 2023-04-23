@@ -51,6 +51,26 @@ TEST_CASE("game/square")
             }
         }
     }
+
+    SECTION("read_square()")
+    {
+        CHECK(read_square("a1") == Square{0, 7});
+        CHECK(read_square("c7") == Square{2, 1});
+        CHECK(read_square("h8") == Square{7, 0});
+
+        CHECK(read_square("") == std::nullopt);
+        CHECK(read_square("?") == std::nullopt);
+        CHECK(read_square("b") == std::nullopt);
+        CHECK(read_square("2") == std::nullopt);
+        CHECK(read_square("bb") == std::nullopt);
+        CHECK(read_square("22") == std::nullopt);
+        CHECK(read_square("2b") == std::nullopt);
+        CHECK(read_square("xy") == std::nullopt);
+        CHECK(read_square("?!") == std::nullopt);
+        CHECK(read_square("abc") == std::nullopt);
+        CHECK(read_square("b2c") == std::nullopt);
+        CHECK(read_square("b2c3") == std::nullopt);
+    }
 }
 
 }  // namespace chess
