@@ -14,8 +14,8 @@ using namespace chess;
 
 int main()
 {
-    Board board;
-    GamePlayers game_players{PlayerType::human, PlayerType::ai};
+    Board board = Board::create_with_default_pieces();
+    GamePlayers game_players{PlayerType::human, PlayerType::human};
     AppController controller;
     ConsoleWriter console_writer;
     const CommandFactory command_factory{board, game_players, controller, console_writer};

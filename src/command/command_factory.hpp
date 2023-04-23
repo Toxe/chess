@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../board/square.hpp"
-#include "../game/player.hpp"
+#include "../game/move.hpp"
 #include "command.hpp"
 
 namespace chess {
@@ -20,6 +20,7 @@ public:
     Command create_quit_command() const;
     Command create_undo_command() const;
     Command create_redo_command() const;
+    Command create_player_move_command(Move move) const;
 
 private:
     Board* board_;

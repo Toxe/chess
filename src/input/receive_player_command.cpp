@@ -30,7 +30,7 @@ Command receive_player_command(const Player player, Board& board, ConsoleWriter&
         const auto command = eval_input(player, board, command_factory, input);
 
         if (!command)
-            console_writer.write("invalid input\n");
+            console_writer.writeln(command.error());
         else
             return *command;
     }

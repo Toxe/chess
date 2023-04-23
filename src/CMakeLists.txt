@@ -11,6 +11,8 @@ add_library(lib_chess
     command/command_factory.cpp
     command/command_factory.hpp
     game/castling_ability.hpp
+    game/commands.cpp
+    game/commands.hpp
     game/game_players.cpp
     game/game_players.hpp
     game/move.hpp

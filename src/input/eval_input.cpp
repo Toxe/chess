@@ -7,7 +7,7 @@
 
 namespace chess {
 
-std::optional<Command> check_keyword_commands(const CommandFactory& command_factory, const std::string& input)
+std::optional<Command> check_keyword_commands(const CommandFactory& command_factory, const std::string_view input)
 {
     if (input == "?" || input == "h" || input == "help")
         return command_factory.create_help_command();
@@ -21,9 +21,39 @@ std::optional<Command> check_keyword_commands(const CommandFactory& command_fact
     return {};
 }
 
-std::optional<Command> eval_input(const Player player, Board& board, const CommandFactory& command_factory, const std::string& input)
+tl::expected<Command, std::string_view> check_move_command(const Player player, Board& board, const CommandFactory& command_factory, const std::string_view input)
 {
-    return check_keyword_commands(command_factory, input);
+    if (input.size() != 4)
+        return tl::unexpected("invalid input");
+
+    const auto from = read_square(input.substr(0, 2));
+    const auto to = read_square(input.substr(2));
+
+    if (!from)
+        return tl::unexpected("invalid source square");
+
+    if (!to)
+        return tl::unexpected("invalid destination square");
+
+    const auto piece = board.piece(*from);
+
+    if (piece == no_piece)
+        return tl::unexpected("no piece found");
+
+    if (piece.player != player)
+        return tl::unexpected("wrong owner of piece");
+
+    // TODO: check if move is legal
+
+    return command_factory.create_player_move_command(Move{*from, *to, piece});
+}
+
+tl::expected<Command, std::string_view> eval_input(const Player player, Board& board, const CommandFactory& command_factory, const std::string_view input)
+{
+    if (auto command = check_keyword_commands(command_factory, input))
+        return *command;
+
+    return check_move_command(player, board, command_factory, input);
 }
 
 }  // namespace chess
