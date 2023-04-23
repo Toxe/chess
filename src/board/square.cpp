@@ -6,10 +6,10 @@ namespace chess {
 
 bool is_valid_col_char(const char c) { return c >= 'a' && c <= 'h'; }
 bool is_valid_row_char(const char c) { return c >= '0' && c <= '8'; }
-short col_from_char(const char c) { return c - 'a'; }
-short row_from_char(const char c) { return '8' - c; }
+char col_from_char(const char c) { return c - 'a'; }
+char row_from_char(const char c) { return '8' - c; }
 
-Square::Square(const short board_col, const short board_row)
+Square::Square(const char board_col, const char board_row)
 {
     assert(board_col >= 0 && board_col < 8);
     assert(board_row >= 0 && board_row < 8);

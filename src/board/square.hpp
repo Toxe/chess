@@ -8,11 +8,11 @@
 
 namespace chess {
 
-struct Square : public Coords<short> {
+struct Square : public Coords<char> {
     Square() : Coords{} { }
-    Square(short board_col, short board_row);
-    Square(int board_col, int board_row) : Square(static_cast<short>(board_col), static_cast<short>(board_row)) { }
-    Square(std::size_t board_col, std::size_t board_row) : Square(static_cast<short>(board_col), static_cast<short>(board_row)) { }
+    Square(char board_col, char board_row);
+    Square(int board_col, int board_row) : Square(static_cast<char>(board_col), static_cast<char>(board_row)) { }
+    Square(std::size_t board_col, std::size_t board_row) : Square(static_cast<char>(board_col), static_cast<char>(board_row)) { }
     Square(std::string_view sv);  // "c5"
 };
 
