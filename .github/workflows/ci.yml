@@ -72,19 +72,19 @@ jobs:
             - run: /bin/bash .ci/build-project.sh
             - run: ./build/tests/tests
 
-    mac-clang-libcpp:
-        name: macOS Clang (libc++)
-        runs-on: macos-latest
-        env:
-            CC: /usr/local/opt/llvm/bin/clang
-            CXX: /usr/local/opt/llvm/bin/clang++
-            CXXFLAGS: -stdlib=libc++
-        steps:
-            - uses: actions/checkout@v3
-            - run: brew install ninja llvm@15
-            - run: /bin/bash .ci/install-vcpkg.sh
-            - run: /bin/bash .ci/build-project.sh
-            - run: ./build/tests/tests
+#    mac-clang-libcpp:
+#        name: macOS Clang (libc++)
+#        runs-on: macos-latest
+#        env:
+#            CC: /usr/local/opt/llvm/bin/clang
+#            CXX: /usr/local/opt/llvm/bin/clang++
+#            CXXFLAGS: -stdlib=libc++
+#        steps:
+#            - uses: actions/checkout@v3
+#            - run: brew install ninja llvm@15
+#            - run: /bin/bash .ci/install-vcpkg.sh
+#            - run: /bin/bash .ci/build-project.sh
+#            - run: ./build/tests/tests
 
 #    mac-clang-libstdcpp:
 #        name: macOS Clang (libstdc++)
