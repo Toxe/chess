@@ -15,7 +15,7 @@ Command HelpCommand(ConsoleWriter* console_writer)
     return Command{
         [=]() {
             const std::string output = R"(
-Enter moves like [TODO].
+Enter moves like "b2b4" or "g8f6".
 
 (?), (h), (help): show help
 (q), (quit), (exit): quit program
