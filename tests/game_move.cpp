@@ -8,12 +8,13 @@ TEST_CASE("game/move")
 {
     SECTION("construct")
     {
-        const Move move{Square{"d4"}, Square{"g4"}, Piece{Player::black, PieceType::rook}};
+        const Move move{Square{"d4"}, Square{"g4"}, Piece{Player::black, PieceType::rook}, MoveType::capture};
 
         CHECK(move.from == Square{"d4"});
         CHECK(move.to == Square{"g4"});
         CHECK(move.piece.player == Player::black);
         CHECK(move.piece.type == PieceType::rook);
+        CHECK(move.type == MoveType::capture);
     }
 }
 

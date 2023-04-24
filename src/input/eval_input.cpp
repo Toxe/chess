@@ -44,8 +44,9 @@ tl::expected<Command, std::string_view> check_move_command(const Player player, 
         return tl::unexpected("wrong owner of piece");
 
     // TODO: check if move is legal
+    // TODO: move type
 
-    return command_factory.create_player_move_command(Move{*from, *to, piece});
+    return command_factory.create_player_move_command(Move{*from, *to, piece, MoveType::normal});
 }
 
 tl::expected<Command, std::string_view> eval_input(const Player player, Board& board, const CommandFactory& command_factory, const std::string_view input)
