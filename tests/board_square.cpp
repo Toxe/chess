@@ -4,7 +4,7 @@
 
 namespace chess {
 
-TEST_CASE("game/square")
+TEST_CASE("board/square")
 {
     SECTION("default construct")
     {

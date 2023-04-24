@@ -45,7 +45,7 @@ void check_for_default_pieces(const Board& board)
             CHECK(board.empty_square({col, row}));
 }
 
-TEST_CASE("game/board")
+TEST_CASE("board/board")
 {
     SECTION("a new Board is empty")
     {
