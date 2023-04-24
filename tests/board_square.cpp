@@ -27,6 +27,9 @@ TEST_CASE("board/square")
 
         CHECK(Square{7, 7}.col() == 7);
         CHECK(Square{7, 7}.row() == 7);
+
+        CHECK(Square{-1, -2}.col() == -1);
+        CHECK(Square{-1, -2}.row() == -2);
     }
 
     SECTION("construct with text notation")
@@ -41,15 +44,16 @@ TEST_CASE("board/square")
         CHECK(Square{"h8"}.row() == 0);
     }
 
-    SECTION("row and column must be between 0 to 7")
+    SECTION("check if Square coordinates would be on a board")
     {
-        for (int row = 0; row < 8; ++row) {
-            for (int col = 0; col < 8; ++col) {
-                const Square square{col, row};
-                CHECK(square.col() == col);
-                CHECK(square.row() == row);
-            }
-        }
+        CHECK(Square{0, 0}.on_board());
+        CHECK(Square{0, 7}.on_board());
+        CHECK(Square{7, 0}.on_board());
+        CHECK(Square{7, 7}.on_board());
+        CHECK(Square{-1, 0}.on_board() == false);
+        CHECK(Square{0, -1}.on_board() == false);
+        CHECK(Square{8, 0}.on_board() == false);
+        CHECK(Square{0, 8}.on_board() == false);
     }
 
     SECTION("read_square()")

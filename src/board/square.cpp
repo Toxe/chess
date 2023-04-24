@@ -9,15 +9,6 @@ bool is_valid_row_char(const char c) { return c >= '0' && c <= '8'; }
 char col_from_char(const char c) { return c - 'a'; }
 char row_from_char(const char c) { return '8' - c; }
 
-Square::Square(const char board_col, const char board_row)
-{
-    assert(board_col >= 0 && board_col < 8);
-    assert(board_row >= 0 && board_row < 8);
-
-    x = board_col;
-    y = board_row;
-}
-
 Square::Square(const std::string_view sv)
 {
     assert(sv.size() == 2);
