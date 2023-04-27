@@ -7,10 +7,11 @@ namespace chess {
 
 enum class MoveType : char {
     normal = 0,
-    capture,
-    castling,
-    en_passant,
     promotion,
+    capture,
+    capture_and_promotion,
+    castling,
+    en_passant
 };
 
 struct Move {
