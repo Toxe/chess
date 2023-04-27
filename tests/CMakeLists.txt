@@ -15,6 +15,7 @@ if(BUILD_TESTING)
         grid_grid.cpp
         grid_gridcell.cpp
         input_eval_input.cpp
+        move_generator_list_moves.cpp
         notation_fen.cpp
         output_player_side.cpp
         output_print_board.cpp

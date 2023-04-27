@@ -29,6 +29,9 @@ add_library(lib_chess
     input/eval_input.hpp
     input/receive_player_command.cpp
     input/receive_player_command.hpp
+    move_generator/list_moves.cpp
+    move_generator/list_moves.hpp
+    move_generator/list_moves_detail.hpp
     notation/fen.cpp
     notation/fen.hpp
     notation/fen_detail.cpp
