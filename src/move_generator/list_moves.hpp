@@ -10,6 +10,6 @@ namespace chess {
 using Moves = std::vector<Move>;
 
 // list all pseudo-legal moves
-Moves list_moves(const Board& board);
+Moves list_moves(Player player, const Board& board);
 
 }  // namespace chess

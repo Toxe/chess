@@ -343,7 +343,7 @@ namespace chess {
 
 using namespace detail::list_moves;
 
-Moves list_moves(const Board& board)
+Moves list_moves(const Player player, const Board& board)
 {
     Moves moves;
 
@@ -352,7 +352,7 @@ Moves list_moves(const Board& board)
             const Square square{col, row};
             const auto piece = board.piece(square);
 
-            if (piece != no_piece)
+            if (piece.player == player)
                 list_moves_for_piece(board, BoardPiece{piece, square}, moves);
         }
     }

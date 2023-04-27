@@ -14,10 +14,13 @@ TEST_CASE("move_generator/list_moves")
     {
         SECTION("default board")
         {
-            const auto moves = list_moves(Board::create_with_default_pieces());
+            const auto moves_white = list_moves(Player::white, Board::create_with_default_pieces());
+            const auto moves_black = list_moves(Player::black, Board::create_with_default_pieces());
 
-            CHECK(moves.size() == 40);
-            CHECK(count_moves(moves, MoveType::normal) == 40);
+            CHECK(moves_white.size() == 20);
+            CHECK(moves_black.size() == 20);
+            CHECK(count_moves(moves_white, MoveType::normal) == 20);
+            CHECK(count_moves(moves_black, MoveType::normal) == 20);
         }
 
         SECTION("arbitrary board")
@@ -33,15 +36,24 @@ TEST_CASE("move_generator/list_moves")
                 "R-----B-",
             });
 
-            const auto moves = list_moves(board);
+            const auto moves_white = list_moves(Player::white, board);
+            const auto moves_black = list_moves(Player::black, board);
 
-            CHECK(moves.size() == 89);
-            CHECK(count_moves(moves, MoveType::normal) == 66);
-            CHECK(count_moves(moves, MoveType::promotion) == 4);
-            CHECK(count_moves(moves, MoveType::capture) == 13);
-            CHECK(count_moves(moves, MoveType::capture_and_promotion) == 4);
-            CHECK(count_moves(moves, MoveType::castling) == 1);
-            CHECK(count_moves(moves, MoveType::en_passant) == 1);
+            CHECK(moves_white.size() == 48);
+            CHECK(count_moves(moves_white, MoveType::normal) == 40);
+            CHECK(count_moves(moves_white, MoveType::promotion) == 0);
+            CHECK(count_moves(moves_white, MoveType::capture) == 7);
+            CHECK(count_moves(moves_white, MoveType::capture_and_promotion) == 0);
+            CHECK(count_moves(moves_white, MoveType::castling) == 0);
+            CHECK(count_moves(moves_white, MoveType::en_passant) == 1);
+
+            CHECK(moves_black.size() == 41);
+            CHECK(count_moves(moves_black, MoveType::normal) == 26);
+            CHECK(count_moves(moves_black, MoveType::promotion) == 4);
+            CHECK(count_moves(moves_black, MoveType::capture) == 6);
+            CHECK(count_moves(moves_black, MoveType::capture_and_promotion) == 4);
+            CHECK(count_moves(moves_black, MoveType::castling) == 1);
+            CHECK(count_moves(moves_black, MoveType::en_passant) == 0);
         }
     }
 
