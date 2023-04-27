@@ -19,6 +19,9 @@ struct Move {
     Square to;
     Piece piece;
     MoveType type;
+
+    bool operator==(const Move& other) const = default;
+    bool operator!=(const Move& other) const = default;
 };
 
 }  // namespace chess
