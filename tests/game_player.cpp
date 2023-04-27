@@ -28,6 +28,12 @@ TEST_CASE("game/player")
         CHECK(player_is_valid(Player::black) == true);
         CHECK(player_is_valid(Player::none) == false);
     }
+
+    SECTION("determine the opposing player")
+    {
+        CHECK(opposing_player(Player::white) == Player::black);
+        CHECK(opposing_player(Player::black) == Player::white);
+    }
 }
 
 }  // namespace chess

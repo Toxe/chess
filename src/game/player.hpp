@@ -22,4 +22,6 @@ bool player_is_human(const PlayerInfo& player_info);
 bool player_is_ai(const PlayerInfo& player_info);
 bool player_is_valid(Player player);
 
+Player opposing_player(Player player);
+
 }  // namespace chess

@@ -23,4 +23,11 @@ bool player_is_valid(const Player player)
     return player == Player::white || player == Player::black;
 }
 
+Player opposing_player(const Player player)
+{
+    assert(player != Player::none);
+
+    return player == Player::white ? Player::black : Player::white;
+}
+
 }  // namespace chess
