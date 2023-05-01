@@ -250,9 +250,14 @@ int create_pawn_en_passant_moves(const Board& board, const BoardPiece board_piec
     for (const auto& side_offset : {MoveOffset{-1, 0}, MoveOffset{1, 0}}) {
         const Square opponent_square = board_piece.square + side_offset;
 
-        if (opponent_square.on_board())
-            if (board.piece(opponent_square) == Piece{opposing_player(board_piece.piece.player), PieceType::pawn})
-                moves.push_back(Move{board_piece.square, board_piece.square + diagonal_move_offset(side_offset, forward_offset), board_piece.piece, MoveType::en_passant});
+        if (opponent_square.on_board()) {
+            if (board.piece(opponent_square) == Piece{opposing_player(board_piece.piece.player), PieceType::pawn}) {
+                const auto to = opponent_square + forward_offset;
+
+                if (board.empty_square(to))
+                    moves.push_back(Move{board_piece.square, to, board_piece.piece, MoveType::en_passant});
+            }
+        }
     }
 
     return static_cast<int>(moves.size() - num_previous_moves);

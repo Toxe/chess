@@ -458,6 +458,38 @@ TEST_CASE("move_generator/list_moves")
 
             SECTION("create_pawn_en_passant_moves()")
             {
+                SECTION("only possible from 5th rank")
+                {
+                    const Board board = Board::create_from_letter_data({
+                        "--------",
+                        "--------",
+                        "--------",
+                        "PpP-----",
+                        "----pPp-",
+                        "--------",
+                        "--------",
+                        "--------",
+                    });
+
+                    // en passant for white
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"a5"}}, moves) == 1);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"b5"}}, moves) == 0);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"c5"}}, moves) == 1);
+
+                    // en passant for black
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"e4"}}, moves) == 1);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"f4"}}, moves) == 0);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"g4"}}, moves) == 1);
+
+                    CHECK(moves.size() == 4);
+                    CHECK(count_moves(moves, MoveType::en_passant) == 4);
+
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_en_passant({"a5"}, {"b6"}, Piece{'P'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_en_passant({"c5"}, {"b6"}, Piece{'P'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_en_passant({"e4"}, {"f3"}, Piece{'p'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_en_passant({"g4"}, {"f3"}, Piece{'p'})));
+                }
+
                 SECTION("impossible when not on 5th rank")
                 {
                     const Board board = Board::create_from_letter_data({
@@ -486,36 +518,28 @@ TEST_CASE("move_generator/list_moves")
                     CHECK(moves.size() == 0);
                 }
 
-                SECTION("only possible from 5th rank")
+                SECTION("destination square must not be occupied")
                 {
                     const Board board = Board::create_from_letter_data({
                         "--------",
                         "--------",
-                        "--------",
+                        "-n------",
                         "PpP-----",
                         "----pPp-",
-                        "--------",
+                        "-----n--",
                         "--------",
                         "--------",
                     });
 
                     // en passant for white
-                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"a5"}}, moves) == 1);
-                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"b5"}}, moves) == 0);
-                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"c5"}}, moves) == 1);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"a5"}}, moves) == 0);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"c5"}}, moves) == 0);
 
                     // en passant for black
-                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"e4"}}, moves) == 1);
-                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'P'}, Square{"f4"}}, moves) == 0);
-                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"g4"}}, moves) == 1);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"e4"}}, moves) == 0);
+                    CHECK(create_pawn_en_passant_moves(board, BoardPiece{Piece{'p'}, Square{"g4"}}, moves) == 0);
 
-                    CHECK(moves.size() == 4);
-                    CHECK(count_moves(moves, MoveType::en_passant) == 4);
-
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a5"}, {"b6"}, Piece{'P'}, MoveType::en_passant}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"c5"}, {"b6"}, Piece{'P'}, MoveType::en_passant}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e4"}, {"f3"}, Piece{'p'}, MoveType::en_passant}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"g4"}, {"f3"}, Piece{'p'}, MoveType::en_passant}));
+                    CHECK(moves.size() == 0);
                 }
             }
 
