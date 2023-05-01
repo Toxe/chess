@@ -1,8 +1,8 @@
 #include "list_moves.hpp"
 
+#include "../board/rank.hpp"
 #include "list_moves_detail.hpp"
 
-#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
@@ -179,7 +179,7 @@ int create_pawn_forward_moves(const Board& board, const BoardPiece board_piece, 
     const auto num_previous_moves = moves.size();
     const auto forward_offset = forward_move_offset(board_piece.piece.player);
     const auto opponent_home_rank = nth_rank(board_piece.piece.player, 8);
-    const auto max_moves = on_second_rank(board_piece) ? 2 : 1;
+    const auto max_moves = on_second_rank(board_piece.piece.player, board_piece.square) ? 2 : 1;
 
     Square pos = board_piece.square;
 
@@ -305,26 +305,6 @@ int create_king_castling_moves(const Board& board, const BoardPiece board_piece,
     }
 
     return static_cast<int>(moves.size() - num_previous_moves);
-}
-
-int nth_rank(const Player player, const int nth)
-{
-    assert(player_is_valid(player));
-    assert(nth >= 1 && nth <= 8);
-
-    return (player == Player::white) ? 8 - nth : nth - 1;
-}
-
-bool on_second_rank(const BoardPiece board_piece)
-{
-    assert(player_is_valid(board_piece.piece.player));
-
-    return board_piece.square.y == nth_rank(board_piece.piece.player, 2);
-}
-
-int count_moves(const Moves& moves, const MoveType type)
-{
-    return static_cast<int>(std::count_if(moves.begin(), moves.end(), [=](const Move& move) { return move.type == type; }));
 }
 
 MoveOffset forward_move_offset(const Player player)

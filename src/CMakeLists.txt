@@ -5,6 +5,8 @@ add_library(lib_chess
     app/commands.hpp
     board/board.cpp
     board/board.hpp
+    board/rank.cpp
+    board/rank.hpp
     board/square.cpp
     board/square.hpp
     command/command.hpp
@@ -32,6 +34,8 @@ add_library(lib_chess
     move_generator/list_moves.cpp
     move_generator/list_moves.hpp
     move_generator/list_moves_detail.hpp
+    move_generator/moves.cpp
+    move_generator/moves.hpp
     notation/fen.cpp
     notation/fen.hpp
     notation/fen_detail.cpp

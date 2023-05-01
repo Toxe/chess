@@ -3,6 +3,7 @@ if(BUILD_TESTING)
         app_app_controller.cpp
         app_commands.cpp
         board_board.cpp
+        board_rank.cpp
         board_square.cpp
         command_command.cpp
         game_castling_ability.cpp
@@ -16,6 +17,7 @@ if(BUILD_TESTING)
         grid_gridcell.cpp
         input_eval_input.cpp
         move_generator_list_moves.cpp
+        move_generator_moves.cpp
         notation_fen.cpp
         output_player_side.cpp
         output_print_board.cpp

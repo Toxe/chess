@@ -670,57 +670,6 @@ TEST_CASE("move_generator/list_moves")
 
         SECTION("utility functions")
         {
-            SECTION("nth_rank()")
-            {
-                CHECK(nth_rank(Player::black, 1) == 0);
-                CHECK(nth_rank(Player::black, 2) == 1);
-                CHECK(nth_rank(Player::black, 7) == 6);
-                CHECK(nth_rank(Player::black, 8) == 7);
-
-                CHECK(nth_rank(Player::white, 1) == 7);
-                CHECK(nth_rank(Player::white, 2) == 6);
-                CHECK(nth_rank(Player::white, 7) == 1);
-                CHECK(nth_rank(Player::white, 8) == 0);
-            }
-
-            SECTION("on_second_rank()")
-            {
-                CHECK(on_second_rank(BoardPiece{Piece{Player::black, PieceType::pawn}, Square{"a7"}}));
-                CHECK(on_second_rank(BoardPiece{Piece{Player::white, PieceType::pawn}, Square{"a2"}}));
-
-                CHECK(on_second_rank(BoardPiece{Piece{Player::black, PieceType::pawn}, Square{"a8"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::black, PieceType::pawn}, Square{"a6"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::black, PieceType::pawn}, Square{"a2"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::black, PieceType::pawn}, Square{"a1"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::white, PieceType::pawn}, Square{"a1"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::white, PieceType::pawn}, Square{"a3"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::white, PieceType::pawn}, Square{"a7"}}) == false);
-                CHECK(on_second_rank(BoardPiece{Piece{Player::white, PieceType::pawn}, Square{"a8"}}) == false);
-            }
-
-            SECTION("count_moves()")
-            {
-                Moves moves{
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::normal},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::normal},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::normal},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::capture},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::capture},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::en_passant},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::promotion},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::castling},
-                    Move{Square{"a1"}, Square{"a2"}, Piece{'p'}, MoveType::castling},
-                };
-
-                CHECK(count_moves(moves, MoveType::normal) == 3);
-                CHECK(count_moves(moves, MoveType::capture) == 2);
-                CHECK(count_moves(moves, MoveType::en_passant) == 1);
-                CHECK(count_moves(moves, MoveType::promotion) == 1);
-                CHECK(count_moves(moves, MoveType::castling) == 2);
-
-                CHECK(count_moves({}, MoveType::normal) == 0);
-            }
-
             SECTION("forward_move_offset()")
             {
                 CHECK(forward_move_offset(Player::white) == MoveOffset{0, -1});
