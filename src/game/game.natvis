@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <Type Name="chess::Piece">
+        <DisplayString>{player,en} {type,en}</DisplayString>
+    </Type>
+
+    <Type Name="chess::Move">
+        <DisplayString>{from} --> {to}, {piece}, {type,en} (captured: {captured_piece})</DisplayString>
+    </Type>
+</AutoVisualizer>
