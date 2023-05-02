@@ -25,6 +25,8 @@ if(BUILD_TESTING)
         output_print_move.cpp
         output_print_piece.cpp
         output_print_square.cpp
+        perft_perft.cpp
+        perft_perft_divide.cpp
     )
 
     set_target_properties(tests PROPERTIES CXX_EXTENSIONS OFF)

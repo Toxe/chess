@@ -55,6 +55,10 @@ add_library(lib_chess
     output/print_piece.hpp
     output/print_square.cpp
     output/print_square.hpp
+    perft/perft.cpp
+    perft/perft.hpp
+    perft/perft_divide.cpp
+    perft/perft_divide.hpp
 )
 
 set_target_properties(lib_chess PROPERTIES CXX_EXTENSIONS OFF)
