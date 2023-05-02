@@ -5,20 +5,10 @@
 
 namespace chess {
 
-bool check_perft_divide(const PerftDivide& perft_divide, const PerftDivide& example_perft_divide)
+void check_perft_divide(const PerftDivide& perft_divide, const PerftDivide& example_perft_divide)
 {
-    bool success = true;
-
-    const auto size = perft_divide.size();
-    const auto total_moves = perft_divide.total_moves();
-    const auto example_size = example_perft_divide.size();
-    const auto example_total_moves = example_perft_divide.total_moves();
-
-    CHECK(size == example_size);
-    CHECK(total_moves == example_total_moves);
-
-    if (size != example_size || total_moves != example_total_moves)
-        success = false;
+    CHECK(perft_divide.size() == example_perft_divide.size());
+    CHECK(perft_divide.total_moves() == example_perft_divide.total_moves());
 
     for (const auto& move : example_perft_divide.moves()) {
         const bool has_move = perft_divide.has_move(move);
@@ -26,21 +16,9 @@ bool check_perft_divide(const PerftDivide& perft_divide, const PerftDivide& exam
         INFO("move: " << move);
         CHECK(has_move);
 
-        if (!has_move) {
-            success = false;
-            continue;
-        }
-
-        const uint64_t count = perft_divide.move_count(move);
-        const uint64_t example_count = example_perft_divide.move_count(move);
-
-        CHECK(count == example_count);
-
-        if (count != example_count)
-            success = false;
+        if (has_move)
+            CHECK(perft_divide.move_count(move) == example_perft_divide.move_count(move));
     }
-
-    return success;
 }
 
 TEST_CASE("perft/perft")
@@ -84,7 +62,7 @@ TEST_CASE("perft/perft")
                                              "g1h3: 1\n");
 
             CHECK(perft(Player::white, board, perft_divide, 1) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 2")
@@ -111,7 +89,7 @@ TEST_CASE("perft/perft")
                                              "g1h3: 20\n");
 
             CHECK(perft(Player::white, board, perft_divide, 2) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 3")
@@ -138,7 +116,7 @@ TEST_CASE("perft/perft")
                                              "g1h3: 400\n");
 
             CHECK(perft(Player::white, board, perft_divide, 3) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 4")
@@ -165,7 +143,7 @@ TEST_CASE("perft/perft")
                                              "g1h3: 8881\n");
 
             CHECK(perft(Player::white, board, perft_divide, 4) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
     }
 
@@ -226,7 +204,7 @@ TEST_CASE("perft/perft")
                                              "e1c1: 1\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 2")
@@ -281,7 +259,7 @@ TEST_CASE("perft/perft")
                                              "e1c1: 43\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 3")
@@ -336,7 +314,7 @@ TEST_CASE("perft/perft")
                                              "e1c1: 1887\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
     }
 
@@ -363,7 +341,7 @@ TEST_CASE("perft/perft")
                                              "a5a4: 1\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 2")
@@ -384,7 +362,7 @@ TEST_CASE("perft/perft")
                                              "a5a4: 15\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 3")
@@ -405,7 +383,7 @@ TEST_CASE("perft/perft")
                                              "a5a4: 224\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 4")
@@ -426,7 +404,7 @@ TEST_CASE("perft/perft")
                                              "a5a4: 3394\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
     }
 
@@ -445,7 +423,7 @@ TEST_CASE("perft/perft")
                                              "g1h1: 1\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 2")
@@ -458,7 +436,7 @@ TEST_CASE("perft/perft")
                                              "g1h1: 46\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 3")
@@ -471,7 +449,7 @@ TEST_CASE("perft/perft")
                                              "g1h1: 1753\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         // SECTION("depth 4")
@@ -484,7 +462,7 @@ TEST_CASE("perft/perft")
         //                                      "g1h1: 81638\n");
 
         //    CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-        //    CHECK(check_perft_divide(perft_divide, example_perft_divide));
+        //    check_perft_divide(perft_divide, example_perft_divide);
         //}
     }
 
@@ -541,7 +519,7 @@ TEST_CASE("perft/perft")
                                              "e1g1: 1\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 2")
@@ -592,7 +570,7 @@ TEST_CASE("perft/perft")
                                              "e1g1: 34\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 3")
@@ -643,7 +621,7 @@ TEST_CASE("perft/perft")
                                              "e1g1: 1376\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         // SECTION("depth 4")
@@ -694,7 +672,7 @@ TEST_CASE("perft/perft")
         //                                      "e1g1: 47054\n");
 
         //    CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-        //    CHECK(check_perft_divide(perft_divide, example_perft_divide));
+        //    CHECK(check_perft_divide(perft_divide, example_perft_divide);
         //}
     }
 
@@ -753,7 +731,7 @@ TEST_CASE("perft/perft")
                                              "g1h1: 1\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 2")
@@ -806,7 +784,7 @@ TEST_CASE("perft/perft")
                                              "g1h1: 46\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         SECTION("depth 3")
@@ -859,7 +837,7 @@ TEST_CASE("perft/perft")
                                              "g1h1: 2211\n");
 
             CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
-            CHECK(check_perft_divide(perft_divide, example_perft_divide));
+            check_perft_divide(perft_divide, example_perft_divide);
         }
 
         // SECTION("depth 4")
@@ -912,7 +890,7 @@ TEST_CASE("perft/perft")
         //                                      "g1h1: 95870\n");
 
         //    CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-        //    CHECK(check_perft_divide(perft_divide, example_perft_divide));
+        //    CHECK(check_perft_divide(perft_divide, example_perft_divide);
         //}
     }
 }

@@ -6,22 +6,11 @@
 
 namespace chess {
 
-bool compare_boards(const Board& board1, const Board& board2)
+void compare_boards(const Board& board1, const Board& board2)
 {
-    bool ok = true;
-
-    for (int row = 0; row < board1.rows(); ++row) {
-        for (int col = 0; col < board1.cols(); ++col) {
-            const bool equal = board1.piece({col, row}) == board2.piece({col, row});
-
-            if (ok && !equal)
-                ok = false;
-
-            CHECK(equal);
-        }
-    }
-
-    return ok;
+    for (int row = 0; row < board1.rows(); ++row)
+        for (int col = 0; col < board1.cols(); ++col)
+            CHECK(board1.piece({col, row}) == board2.piece({col, row}));
 }
 
 TEST_CASE("notation/fen")
@@ -32,7 +21,7 @@ TEST_CASE("notation/fen")
         {
             const auto fen1 = read_FEN("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2");
 
-            CHECK(compare_boards(
+            compare_boards(
                 fen1.board,
                 Board::create_from_letter_data({
                     "rnbqkbnr",
@@ -43,7 +32,7 @@ TEST_CASE("notation/fen")
                     "--------",
                     "PPPP-PPP",
                     "RNBQKBNR",
-                })));
+                }));
 
             CHECK(fen1.side_to_move == Player::white);
             CHECK(fen1.castling_ability == CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_king, CastlingRight::black_queen});
@@ -53,7 +42,7 @@ TEST_CASE("notation/fen")
 
             const auto fen2 = read_FEN("1k1r3r/pp4pp/8/2pp1pq1/8/P7/PRP2P1P/1Q3R1K b - - 0 18");
 
-            CHECK(compare_boards(
+            compare_boards(
                 fen2.board,
                 Board::create_from_letter_data({
                     "-k-r---r",
@@ -64,7 +53,7 @@ TEST_CASE("notation/fen")
                     "P-------",
                     "PRP--P-P",
                     "-Q---R-K",
-                })));
+                }));
 
             CHECK(fen2.side_to_move == Player::black);
             CHECK(fen2.castling_ability == CastlingAbility{});
@@ -102,7 +91,7 @@ TEST_CASE("notation/fen")
 
         SECTION("process_piece_placement()")
         {
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
                 Board::create_from_letter_data({
                     "rnbqkbnr",
@@ -113,9 +102,9 @@ TEST_CASE("notation/fen")
                     "--------",
                     "PPPPPPPP",
                     "RNBQKBNR",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR"),
                 Board::create_from_letter_data({
                     "rnbqkbnr",
@@ -126,9 +115,9 @@ TEST_CASE("notation/fen")
                     "--------",
                     "PPPP-PPP",
                     "RNBQKBNR",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR"),
                 Board::create_from_letter_data({
                     "rnbqkbnr",
@@ -139,9 +128,9 @@ TEST_CASE("notation/fen")
                     "--------",
                     "PPPP-PPP",
                     "RNBQKBNR",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R"),
                 Board::create_from_letter_data({
                     "rnbqkbnr",
@@ -152,9 +141,9 @@ TEST_CASE("notation/fen")
                     "-----N--",
                     "PPPP-PPP",
                     "RNBQKB-R",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("4k3/8/8/8/8/8/4P3/4K3"),
                 Board::create_from_letter_data({
                     "----k---",
@@ -165,9 +154,9 @@ TEST_CASE("notation/fen")
                     "--------",
                     "----P---",
                     "----K---",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("8/5k2/3p4/1p1Pp2p/pP2Pp1P/P4P1K/8/8"),
                 Board::create_from_letter_data({
                     "--------",
@@ -178,9 +167,9 @@ TEST_CASE("notation/fen")
                     "P----P-K",
                     "--------",
                     "--------",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("r3k2r/p1pppppp/n7/8/8/8/P2PPPpP/R3K2R"),
                 Board::create_from_letter_data({
                     "r---k--r",
@@ -191,9 +180,9 @@ TEST_CASE("notation/fen")
                     "--------",
                     "P--PPPpP",
                     "R---K--R",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("r1b1k2r/pp3ppp/5b2/K2p1n2/2N5/4nN2/Pp4qP/8"),
                 Board::create_from_letter_data({
                     "r-b-k--r",
@@ -204,9 +193,9 @@ TEST_CASE("notation/fen")
                     "----nN--",
                     "Pp----qP",
                     "--------",
-                })));
+                }));
 
-            CHECK(compare_boards(
+            compare_boards(
                 detail::fen::process_piece_placement("1k1r3r/pp4pp/8/2pp1pq1/8/P7/PRP2P1P/1Q3R1K"),
                 Board::create_from_letter_data({
                     "-k-r---r",
@@ -217,7 +206,7 @@ TEST_CASE("notation/fen")
                     "P-------",
                     "PRP--P-P",
                     "-Q---R-K",
-                })));
+                }));
 
             CHECK_THROWS(detail::fen::process_piece_placement("8/8/8/8/8/8/8"));
             CHECK_THROWS(detail::fen::process_piece_placement("8/8/8/8/8/8/8/8/8"));
