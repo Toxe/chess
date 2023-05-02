@@ -6,14 +6,16 @@ namespace chess {
 
 TEST_CASE("output/player_side")
 {
-    SECTION("White")
+    SECTION("player_side()")
     {
         CHECK(player_side(Player::white) == "White");
+        CHECK(player_side(Player::black) == "Black");
     }
 
-    SECTION("Black")
+    SECTION("print_player()")
     {
-        CHECK(player_side(Player::black) == "Black");
+        CHECK(print_player(Player::white) == "white");
+        CHECK(print_player(Player::black) == "black");
     }
 }
 

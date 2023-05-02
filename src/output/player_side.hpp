@@ -7,5 +7,6 @@
 namespace chess {
 
 std::string_view player_side(Player player);
+std::string_view print_player(Player player);
 
 }  // namespace chess

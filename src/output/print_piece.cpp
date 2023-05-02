@@ -3,6 +3,8 @@
 #include <cassert>
 #include <stdexcept>
 
+#include "player_side.hpp"
+
 namespace chess {
 
 char print_piece_letter(const Piece piece)
@@ -61,6 +63,29 @@ std::string_view print_piece_symbol(const Piece piece)
                 throw std::runtime_error{"invalid piece type"};
         }
     }
+}
+
+std::string_view print_piece_type(const PieceType type)
+{
+    assert(type != PieceType::none);
+
+    switch (type) {
+        case PieceType::pawn: return "pawn";
+        case PieceType::knight: return "knight";
+        case PieceType::bishop: return "bishop";
+        case PieceType::rook: return "rook";
+        case PieceType::queen: return "queen";
+        case PieceType::king: return "king";
+        default:
+            throw std::runtime_error{"invalid piece type"};
+    }
+}
+
+std::string print_piece_descriptive(const Piece piece)
+{
+    assert(piece.player != Player::none && piece.type != PieceType::none);
+
+    return std::string{print_player(piece.player)} + " " + std::string{print_piece_type(piece.type)};
 }
 
 }  // namespace chess
