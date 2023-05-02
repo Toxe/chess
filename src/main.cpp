@@ -2,13 +2,13 @@
 
 #include "app/app_controller.hpp"
 #include "board/board.hpp"
+#include "board/print.hpp"
 #include "command/command_factory.hpp"
 #include "game/game_players.hpp"
+#include "game/print.hpp"
 #include "game/win_conditions.hpp"
 #include "input/receive_player_command.hpp"
 #include "output/console_writer.hpp"
-#include "output/print_board.hpp"
-#include "output/print_game_over.hpp"
 
 using namespace chess;
 

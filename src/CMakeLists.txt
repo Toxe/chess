@@ -5,6 +5,8 @@ add_library(lib_chess
     app/commands.hpp
     board/board.cpp
     board/board.hpp
+    board/print.cpp
+    board/print.hpp
     board/rank.cpp
     board/rank.hpp
     board/square.cpp
@@ -23,6 +25,8 @@ add_library(lib_chess
     game/pieces.hpp
     game/player.cpp
     game/player.hpp
+    game/print.cpp
+    game/print.hpp
     game/win_conditions.cpp
     game/win_conditions.hpp
     grid/coords.hpp
@@ -43,22 +47,12 @@ add_library(lib_chess
     notation/fen_detail.hpp
     output/console_writer.cpp
     output/console_writer.hpp
-    output/player_side.cpp
-    output/player_side.hpp
-    output/print_board.cpp
-    output/print_board.hpp
-    output/print_game_over.cpp
-    output/print_game_over.hpp
-    output/print_move.cpp
-    output/print_move.hpp
-    output/print_piece.cpp
-    output/print_piece.hpp
-    output/print_square.cpp
-    output/print_square.hpp
     perft/perft.cpp
     perft/perft.hpp
     perft/perft_divide.cpp
     perft/perft_divide.hpp
+    perft/print.cpp
+    perft/print.hpp
 )
 
 set_target_properties(lib_chess PROPERTIES CXX_EXTENSIONS OFF)

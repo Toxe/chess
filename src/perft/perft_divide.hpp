@@ -23,8 +23,6 @@ public:
     bool has_move(const std::string& move) const;  // TODO
     uint64_t move_count(const std::string& move) const;  // TODO
 
-    std::string print() const;
-
 private:
     std::map<std::string, uint64_t> map_{};
 };

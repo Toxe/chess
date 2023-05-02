@@ -3,8 +3,8 @@
 #include "fmt/core.h"
 #include "scn/all.h"
 
+#include "../game/print.hpp"
 #include "../output/console_writer.hpp"
-#include "../output/player_side.hpp"
 #include "eval_input.hpp"
 
 namespace chess {
@@ -14,7 +14,7 @@ std::string read_input(const Player player, ConsoleWriter& console_writer)
     std::string input;
 
     while (true) {
-        if (scn::prompt(fmt::format("{}, your move? (type \"?\" for help)\n? ", player_side(player)).c_str(), "{}", input))
+        if (scn::prompt(fmt::format("{}, your move? (type \"?\" for help)\n? ", print_player_side(player)).c_str(), "{}", input))
             break;
 
         console_writer.writeln("invalid input");

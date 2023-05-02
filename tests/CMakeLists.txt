@@ -3,6 +3,7 @@ if(BUILD_TESTING)
         app_app_controller.cpp
         app_commands.cpp
         board_board.cpp
+        board_print.cpp
         board_rank.cpp
         board_square.cpp
         command_command.cpp
@@ -11,6 +12,7 @@ if(BUILD_TESTING)
         game_move.cpp
         game_pieces.cpp
         game_player.cpp
+        game_print.cpp
         game_win_conditions.cpp
         grid_coords.cpp
         grid_grid.cpp
@@ -19,14 +21,9 @@ if(BUILD_TESTING)
         move_generator_list_moves.cpp
         move_generator_moves.cpp
         notation_fen.cpp
-        output_player_side.cpp
-        output_print_board.cpp
-        output_print_game_over.cpp
-        output_print_move.cpp
-        output_print_piece.cpp
-        output_print_square.cpp
         perft_perft.cpp
         perft_perft_divide.cpp
+        perft_print.cpp
     )
 
     set_target_properties(tests PROPERTIES CXX_EXTENSIONS OFF)

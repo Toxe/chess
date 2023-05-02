@@ -8,8 +8,7 @@
 #include "../board/board.hpp"
 #include "../game/game_players.hpp"
 #include "../output/console_writer.hpp"
-#include "../output/player_side.hpp"
-#include "../output/print_move.hpp"
+#include "print.hpp"
 
 namespace chess {
 
@@ -21,14 +20,14 @@ Command PlayerMoveCommand(GamePlayers* game_players, Board* board, ConsoleWriter
 
     return Command{
         .execute = [=]() {
-            console_writer->writeln(fmt::format("> {} move: {}", player_side(move.piece.player), print_move(move)));
+            console_writer->writeln(fmt::format("> {} move: {}", print_player_side(move.piece.player), print_move(move)));
 
             board->change_piece(move.from, no_piece);
             board->change_piece(move.to, move.piece);
 
             game_players->switch_players(); },
         .undo = [=]() {
-            console_writer->writeln(fmt::format("> undo {} move: {}", player_side(move.piece.player), print_move(move)));
+            console_writer->writeln(fmt::format("> undo {} move: {}", print_player_side(move.piece.player), print_move(move)));
 
             board->change_piece(move.from, move.piece);
             board->change_piece(move.to, piece_at_destination);

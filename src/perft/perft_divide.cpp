@@ -1,12 +1,11 @@
 #include "perft_divide.hpp"
 
-#include <algorithm>
 #include <numeric>
 #include <sstream>
 
 #include "fmt/core.h"
 
-#include "../output/print_square.hpp"
+#include "../board/print.hpp"
 
 namespace chess {
 
@@ -56,25 +55,6 @@ bool PerftDivide::has_move(const std::string& move) const
 uint64_t PerftDivide::move_count(const std::string& move) const
 {
     return map_.at(move);
-}
-
-std::string PerftDivide::print() const
-{
-    std::string s;
-
-    if (!map_.empty()) {
-        std::vector<std::string> lines;
-
-        for (const auto& [move, count] : map_)
-            lines.push_back(fmt::format("{}: {}\n", move, count));
-
-        std::sort(lines.begin(), lines.end());
-
-        for (const auto& line : lines)
-            s += line;
-    }
-
-    return s + fmt::format("total: {}", total_moves());
 }
 
 }  // namespace chess
