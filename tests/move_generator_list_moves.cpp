@@ -378,14 +378,14 @@ TEST_CASE("move_generator/list_moves")
                     CHECK(moves.size() == 12);
                     CHECK(count_moves(moves, MoveType::promotion) == 8);
 
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"a8"}, Piece{'N'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"a8"}, Piece{'R'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"a8"}, Piece{'B'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"a8"}, Piece{'Q'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"g2"}, {"g1"}, Piece{'n'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"g2"}, {"g1"}, Piece{'r'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"g2"}, {"g1"}, Piece{'b'}, MoveType::promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"g2"}, {"g1"}, Piece{'q'}, MoveType::promotion}));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"a7"}, {"a8"}, Piece{'N'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"a7"}, {"a8"}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"a7"}, {"a8"}, Piece{'B'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"a7"}, {"a8"}, Piece{'Q'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"g2"}, {"g1"}, Piece{'n'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"g2"}, {"g1"}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"g2"}, {"g1"}, Piece{'b'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_promotion({"g2"}, {"g1"}, Piece{'q'})));
                 }
             }
 
@@ -437,22 +437,22 @@ TEST_CASE("move_generator/list_moves")
                     CHECK(moves.size() == 16);
                     CHECK(count_moves(moves, MoveType::capture_and_promotion) == 16);
 
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"b8"}, Piece{'N'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"b8"}, Piece{'R'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"b8"}, Piece{'B'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"a7"}, {"b8"}, Piece{'Q'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"h7"}, {"g8"}, Piece{'N'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"h7"}, {"g8"}, Piece{'R'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"h7"}, {"g8"}, Piece{'B'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"h7"}, {"g8"}, Piece{'Q'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"d1"}, Piece{'n'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"d1"}, Piece{'r'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"d1"}, Piece{'b'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"d1"}, Piece{'q'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"f1"}, Piece{'n'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"f1"}, Piece{'r'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"f1"}, Piece{'b'}, MoveType::capture_and_promotion}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e2"}, {"f1"}, Piece{'q'}, MoveType::capture_and_promotion}));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"a7"}, {"b8"}, Piece{'N'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"a7"}, {"b8"}, Piece{'R'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"a7"}, {"b8"}, Piece{'B'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"a7"}, {"b8"}, Piece{'Q'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"h7"}, {"g8"}, Piece{'N'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"h7"}, {"g8"}, Piece{'R'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"h7"}, {"g8"}, Piece{'B'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"h7"}, {"g8"}, Piece{'Q'}, Piece{'r'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"d1"}, Piece{'n'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"d1"}, Piece{'r'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"d1"}, Piece{'b'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"d1"}, Piece{'q'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"f1"}, Piece{'n'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"f1"}, Piece{'r'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"f1"}, Piece{'b'}, Piece{'R'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_capture_and_promotion({"e2"}, {"f1"}, Piece{'q'}, Piece{'R'})));
                 }
             }
 
@@ -622,10 +622,10 @@ TEST_CASE("move_generator/list_moves")
                     CHECK(moves.size() == 4);
                     CHECK(count_moves(moves, MoveType::castling) == 4);
 
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e8"}, {"g8"}, Piece{'k'}, MoveType::castling}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e8"}, {"c8"}, Piece{'k'}, MoveType::castling}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e1"}, {"g1"}, Piece{'K'}, MoveType::castling}));
-                    CHECK_THAT(moves, Catch::Matchers::Contains(Move{{"e1"}, {"c1"}, Piece{'K'}, MoveType::castling}));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_castling({"e8"}, {"g8"}, Piece{'k'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_castling({"e8"}, {"c8"}, Piece{'k'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_castling({"e1"}, {"g1"}, Piece{'K'})));
+                    CHECK_THAT(moves, Catch::Matchers::Contains(Move::create_castling({"e1"}, {"c1"}, Piece{'K'})));
                 }
 
                 SECTION("blocked")

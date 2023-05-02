@@ -17,6 +17,7 @@ add_library(lib_chess
     game/commands.hpp
     game/game_players.cpp
     game/game_players.hpp
+    game/move.cpp
     game/move.hpp
     game/pieces.cpp
     game/pieces.hpp

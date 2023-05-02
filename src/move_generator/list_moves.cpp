@@ -159,10 +159,10 @@ int create_straight_line_moves(const Board& board, const BoardPiece board_piece,
         const auto piece_on_square = board.piece(pos);
 
         if (piece_on_square == no_piece) {
-            moves.push_back(Move{board_piece.square, pos, board_piece.piece, MoveType::normal});
+            moves.push_back(Move::create_normal(board_piece.square, pos, board_piece.piece));
         } else {
             if (piece_on_square.player != board_piece.piece.player)
-                moves.push_back(Move{board_piece.square, pos, board_piece.piece, MoveType::capture});
+                moves.push_back(Move::create_capture(board_piece.square, pos, board_piece.piece, piece_on_square));
 
             break;
         }
@@ -197,9 +197,9 @@ int create_pawn_forward_moves(const Board& board, const BoardPiece board_piece, 
         // promotion if pawn ends on opponents home rank, normal move otherwise
         if (pos.y == opponent_home_rank) {
             for (const auto piece_type : {PieceType::knight, PieceType::rook, PieceType::bishop, PieceType::queen})
-                moves.push_back(Move{board_piece.square, pos, Piece{board_piece.piece.player, piece_type}, MoveType::promotion});
+                moves.push_back(Move::create_promotion(board_piece.square, pos, Piece{board_piece.piece.player, piece_type}));
         } else {
-            moves.push_back(Move{board_piece.square, pos, board_piece.piece, MoveType::normal});
+            moves.push_back(Move::create_normal(board_piece.square, pos, board_piece.piece));
         }
     }
 
@@ -225,9 +225,9 @@ int create_pawn_capture_moves(const Board& board, const BoardPiece board_piece, 
                 // capture + promotion if pawn ends on opponents home rank, normal capture otherwise
                 if (pos.y == opponent_home_rank) {
                     for (const auto piece_type : {PieceType::knight, PieceType::rook, PieceType::bishop, PieceType::queen})
-                        moves.push_back(Move{board_piece.square, pos, Piece{board_piece.piece.player, piece_type}, MoveType::capture_and_promotion});
+                        moves.push_back(Move::create_capture_and_promotion(board_piece.square, pos, Piece{board_piece.piece.player, piece_type}, piece_on_square));
                 } else {
-                    moves.push_back(Move{board_piece.square, pos, board_piece.piece, MoveType::capture});
+                    moves.push_back(Move::create_capture(board_piece.square, pos, board_piece.piece, piece_on_square));
                 }
             }
         }
@@ -255,7 +255,7 @@ int create_pawn_en_passant_moves(const Board& board, const BoardPiece board_piec
                 const auto to = opponent_square + forward_offset;
 
                 if (board.empty_square(to))
-                    moves.push_back(Move{board_piece.square, to, board_piece.piece, MoveType::en_passant});
+                    moves.push_back(Move::create_en_passant(board_piece.square, to, board_piece.piece));
             }
         }
     }
@@ -276,9 +276,9 @@ int create_knight_move(const Board& board, const BoardPiece board_piece, Moves& 
         const auto piece_on_square = board.piece(jump_to);
 
         if (piece_on_square == no_piece)
-            moves.push_back(Move{board_piece.square, jump_to, board_piece.piece, MoveType::normal});
+            moves.push_back(Move::create_normal(board_piece.square, jump_to, board_piece.piece));
         else if (piece_on_square.player != board_piece.piece.player)
-            moves.push_back(Move{board_piece.square, jump_to, board_piece.piece, MoveType::capture});
+            moves.push_back(Move::create_capture(board_piece.square, jump_to, board_piece.piece, piece_on_square));
     }
 
     return static_cast<int>(moves.size() - num_previous_moves);
@@ -296,12 +296,12 @@ int create_king_castling_moves(const Board& board, const BoardPiece board_piece,
         // kingside
         if (board.piece(Square{7, first_rank}) == Piece{board_piece.piece.player, PieceType::rook})
             if (board.empty_square(Square{4 + 1, first_rank}) && board.empty_square(Square{4 + 2, first_rank}))
-                moves.push_back(Move{board_piece.square, Square{4 + 2, first_rank}, board_piece.piece, MoveType::castling});
+                moves.push_back(Move::create_castling(board_piece.square, Square{4 + 2, first_rank}, board_piece.piece));
 
         // queenside
         if (board.piece(Square{0, first_rank}) == Piece{board_piece.piece.player, PieceType::rook})
             if (board.empty_square(Square{4 - 3, first_rank}) && board.empty_square(Square{4 - 2, first_rank}) && board.empty_square(Square{4 - 1, first_rank}))
-                moves.push_back(Move{board_piece.square, Square{4 - 2, first_rank}, board_piece.piece, MoveType::castling});
+                moves.push_back(Move::create_castling(board_piece.square, Square{4 - 2, first_rank}, board_piece.piece));
     }
 
     return static_cast<int>(moves.size() - num_previous_moves);

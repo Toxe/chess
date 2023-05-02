@@ -46,7 +46,7 @@ tl::expected<Command, std::string_view> check_move_command(const Player player, 
     // TODO: check if move is legal
     // TODO: move type
 
-    return command_factory.create_player_move_command(Move{*from, *to, piece, MoveType::normal});
+    return command_factory.create_player_move_command(Move::create_normal(*from, *to, piece));
 }
 
 tl::expected<Command, std::string_view> eval_input(const Player player, Board& board, const CommandFactory& command_factory, const std::string_view input)
