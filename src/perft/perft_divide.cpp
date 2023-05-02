@@ -3,8 +3,6 @@
 #include <numeric>
 #include <sstream>
 
-#include "fmt/core.h"
-
 #include "../board/print.hpp"
 
 namespace chess {
@@ -28,8 +26,7 @@ PerftDivide::PerftDivide(const std::string& example_data)
 
 void PerftDivide::add(Square from, Square to, uint64_t num_moves)
 {
-    const std::string key = fmt::format("{}{}", print_square(from), print_square(to));
-    map_[key] = num_moves;
+    map_[print_square(from) + print_square(to)] = num_moves;
 }
 
 uint64_t PerftDivide::total_moves() const

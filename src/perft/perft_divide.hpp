@@ -20,8 +20,8 @@ public:
     uint64_t total_moves() const;
 
     std::vector<std::string> moves() const;
-    bool has_move(const std::string& move) const;  // TODO
-    uint64_t move_count(const std::string& move) const;  // TODO
+    bool has_move(const std::string& move) const;
+    uint64_t move_count(const std::string& move) const;
 
 private:
     std::map<std::string, uint64_t> map_{};

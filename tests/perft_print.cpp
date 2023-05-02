@@ -11,12 +11,11 @@ TEST_CASE("perft/print")
     {
         SECTION("with entries")
         {
-            PerftDivide perft_divide;
-            perft_divide.add(Square{"a1"}, Square{"a3"}, 50);
-            perft_divide.add(Square{"a1"}, Square{"a2"}, 5);
-            perft_divide.add(Square{"f4"}, Square{"f6"}, 20);
-            perft_divide.add(Square{"b2"}, Square{"c2"}, 10);
-            perft_divide.add(Square{"f4"}, Square{"f5"}, 100);
+            PerftDivide perft_divide{"a1a3: 50\n"
+                                     "a1a2: 5\n"
+                                     "f4f6: 20\n"
+                                     "b2c2: 10\n"
+                                     "f4f5: 100\n"};
 
             const std::string s = "a1a2: 5\n"
                                   "a1a3: 50\n"
