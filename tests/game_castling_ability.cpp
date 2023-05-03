@@ -35,6 +35,25 @@ TEST_CASE("game/castling_ability")
         CHECK(castling_ability == CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_king, CastlingRight::black_queen});
     }
 
+    SECTION("can clear flags")
+    {
+        CastlingAbility castling_ability{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_king, CastlingRight::black_queen};
+
+        CHECK(castling_ability == CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_king, CastlingRight::black_queen});
+
+        castling_ability.clear(CastlingRight::black_king);
+        CHECK(castling_ability == CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_queen});
+
+        castling_ability.clear(CastlingRight::white_queen);
+        CHECK(castling_ability == CastlingAbility{CastlingRight::white_king, CastlingRight::black_queen});
+
+        castling_ability.clear(CastlingRight::white_king);
+        CHECK(castling_ability == CastlingAbility{CastlingRight::black_queen});
+
+        castling_ability.clear(CastlingRight::black_queen);
+        CHECK(castling_ability == CastlingAbility{});
+    }
+
     SECTION("comparison")
     {
         CastlingAbility castling_ability;

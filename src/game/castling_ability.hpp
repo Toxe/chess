@@ -29,6 +29,12 @@ public:
         mask_.set(static_cast<std::size_t>(castling_right));
     }
 
+    void clear(const CastlingRight castling_right)
+    {
+        assert(castling_right != CastlingRight::none);
+        mask_.reset(static_cast<std::size_t>(castling_right));
+    }
+
     bool has(const CastlingRight castling_right) const
     {
         assert(castling_right != CastlingRight::none);
