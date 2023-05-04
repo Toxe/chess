@@ -328,7 +328,7 @@ namespace chess {
 
 using namespace detail::list_moves;
 
-Moves list_moves(const Player player, const Board& board)
+Moves list_moves(const Board& board, const Player player)
 {
     Moves moves;
 

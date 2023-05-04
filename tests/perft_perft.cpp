@@ -3,6 +3,8 @@
 #include "../src/notation/fen.hpp"
 #include "../src/perft/perft.hpp"
 
+#define MORE_TESTS 0
+
 namespace chess {
 
 void check_perft_divide(const PerftDivide& perft_divide, const PerftDivide& example_perft_divide)
@@ -26,16 +28,18 @@ TEST_CASE("perft/perft")
     SECTION("the board does not change")
     {
         auto fen = read_FEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1");
+        const GameState game_state{fen.castling_ability, fen.en_passant_target_square};
         const auto board_backup = fen.board;
         PerftDivide perft_divide;
 
-        CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) > 0);
+        CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 1) > 0);
         CHECK(fen.board == board_backup);
     }
 
-    SECTION("example 1 (default board)")
+    SECTION("example 1 (default starting position)")
     {
         auto board = Board::create_with_default_pieces();
+        const GameState game_state{CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_king, CastlingRight::black_queen}, std::nullopt};
         PerftDivide perft_divide;
 
         SECTION("depth 1")
@@ -61,7 +65,7 @@ TEST_CASE("perft/perft")
                                              "g1f3: 1\n"
                                              "g1h3: 1\n");
 
-            CHECK(perft(Player::white, board, perft_divide, 1) == example_perft_divide.total_moves());
+            CHECK(perft(Player::white, board, game_state, perft_divide, 1) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -88,7 +92,7 @@ TEST_CASE("perft/perft")
                                              "g1f3: 20\n"
                                              "g1h3: 20\n");
 
-            CHECK(perft(Player::white, board, perft_divide, 2) == example_perft_divide.total_moves());
+            CHECK(perft(Player::white, board, game_state, perft_divide, 2) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -115,7 +119,7 @@ TEST_CASE("perft/perft")
                                              "g1f3: 440\n"
                                              "g1h3: 400\n");
 
-            CHECK(perft(Player::white, board, perft_divide, 3) == example_perft_divide.total_moves());
+            CHECK(perft(Player::white, board, game_state, perft_divide, 3) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -142,14 +146,44 @@ TEST_CASE("perft/perft")
                                              "g1f3: 9748\n"
                                              "g1h3: 8881\n");
 
-            CHECK(perft(Player::white, board, perft_divide, 4) == example_perft_divide.total_moves());
+            CHECK(perft(Player::white, board, game_state, perft_divide, 4) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
+
+#if MORE_TESTS
+        SECTION("depth 5")
+        {
+            PerftDivide example_perft_divide("a2a3: 181046\n"
+                                             "b2b3: 215255\n"
+                                             "c2c3: 222861\n"
+                                             "d2d3: 328511\n"
+                                             "e2e3: 402988\n"
+                                             "f2f3: 178889\n"
+                                             "g2g3: 217210\n"
+                                             "h2h3: 181044\n"
+                                             "a2a4: 217832\n"
+                                             "b2b4: 216145\n"
+                                             "c2c4: 240082\n"
+                                             "d2d4: 361790\n"
+                                             "e2e4: 405385\n"
+                                             "f2f4: 198473\n"
+                                             "g2g4: 214048\n"
+                                             "h2h4: 218829\n"
+                                             "b1a3: 198572\n"
+                                             "b1c3: 234656\n"
+                                             "g1f3: 233491\n"
+                                             "g1h3: 198502\n");
+
+            CHECK(perft(Player::white, board, game_state, perft_divide, 5) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+#endif
     }
 
     SECTION("example 2")
     {
         auto fen = read_FEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
+        const GameState game_state{fen.castling_ability, fen.en_passant_target_square};
         PerftDivide perft_divide;
 
         SECTION("depth 1")
@@ -203,7 +237,7 @@ TEST_CASE("perft/perft")
                                              "e1g1: 1\n"
                                              "e1c1: 1\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 1) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -258,7 +292,7 @@ TEST_CASE("perft/perft")
                                              "e1g1: 43\n"
                                              "e1c1: 43\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 2) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -313,14 +347,72 @@ TEST_CASE("perft/perft")
                                              "e1g1: 2059\n"
                                              "e1c1: 1887\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 3) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
+
+#if MORE_TESTS
+        SECTION("depth 4")
+        {
+            PerftDivide example_perft_divide("a2a3: 94405\n"
+                                             "b2b3: 81066\n"
+                                             "g2g3: 77468\n"
+                                             "d5d6: 79551\n"
+                                             "a2a4: 90978\n"
+                                             "g2g4: 75677\n"
+                                             "g2h3: 82759\n"
+                                             "d5e6: 97464\n"
+                                             "c3b1: 84773\n"
+                                             "c3d1: 84782\n"
+                                             "c3a4: 91447\n"
+                                             "c3b5: 81498\n"
+                                             "e5d3: 77431\n"
+                                             "e5c4: 77752\n"
+                                             "e5g4: 79912\n"
+                                             "e5c6: 83885\n"
+                                             "e5g6: 83866\n"
+                                             "e5d7: 93913\n"
+                                             "e5f7: 88799\n"
+                                             "d2c1: 83037\n"
+                                             "d2e3: 90274\n"
+                                             "d2f4: 84869\n"
+                                             "d2g5: 87951\n"
+                                             "d2h6: 82323\n"
+                                             "e2d1: 74963\n"
+                                             "e2f1: 88728\n"
+                                             "e2d3: 85119\n"
+                                             "e2c4: 84835\n"
+                                             "e2b5: 79739\n"
+                                             "e2a6: 69334\n"
+                                             "a1b1: 83348\n"
+                                             "a1c1: 83263\n"
+                                             "a1d1: 79695\n"
+                                             "h1f1: 81563\n"
+                                             "h1g1: 84876\n"
+                                             "f3d3: 83727\n"
+                                             "f3e3: 92505\n"
+                                             "f3g3: 94461\n"
+                                             "f3h3: 98524\n"
+                                             "f3f4: 90488\n"
+                                             "f3g4: 92037\n"
+                                             "f3f5: 104992\n"
+                                             "f3h5: 95034\n"
+                                             "f3f6: 77838\n"
+                                             "e1d1: 79989\n"
+                                             "e1f1: 77887\n"
+                                             "e1g1: 86975\n"
+                                             "e1c1: 79803\n");
+
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 4) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+#endif
     }
 
     SECTION("example 3")
     {
         auto fen = read_FEN("8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1");
+        const GameState game_state{fen.castling_ability, fen.en_passant_target_square};
         PerftDivide perft_divide;
 
         SECTION("depth 1")
@@ -340,7 +432,7 @@ TEST_CASE("perft/perft")
                                              "b4f4: 1\n"
                                              "a5a4: 1\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 1) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -361,7 +453,7 @@ TEST_CASE("perft/perft")
                                              "b4f4: 2\n"
                                              "a5a4: 15\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 2) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -382,7 +474,7 @@ TEST_CASE("perft/perft")
                                              "b4f4: 41\n"
                                              "a5a4: 224\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 3) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -403,14 +495,59 @@ TEST_CASE("perft/perft")
                                              "b4f4: 606\n"
                                              "a5a4: 3394\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 4) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
+
+#if MORE_TESTS
+        SECTION("depth 5")
+        {
+            PerftDivide example_perft_divide("e2e3: 45326\n"
+                                             "g2g3: 14747\n"
+                                             "a5a6: 59028\n"
+                                             "e2e4: 36889\n"
+                                             "g2g4: 53895\n"
+                                             "b4b1: 69665\n"
+                                             "b4b2: 48498\n"
+                                             "b4b3: 59719\n"
+                                             "b4a4: 45591\n"
+                                             "b4c4: 63781\n"
+                                             "b4d4: 59574\n"
+                                             "b4e4: 54192\n"
+                                             "b4f4: 10776\n"
+                                             "a5a4: 52943\n");
+
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 5) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+
+        SECTION("depth 6")
+        {
+            PerftDivide example_perft_divide("e2e3: 745505\n"
+                                             "g2g3: 271220\n"
+                                             "a5a6: 968724\n"
+                                             "e2e4: 597519\n"
+                                             "g2g4: 892781\n"
+                                             "b4b1: 1160678\n"
+                                             "b4b2: 818501\n"
+                                             "b4b3: 941129\n"
+                                             "b4a4: 745667\n"
+                                             "b4c4: 1027199\n"
+                                             "b4d4: 957108\n"
+                                             "b4e4: 860971\n"
+                                             "b4f4: 174919\n"
+                                             "a5a4: 868162\n");
+
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 6) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+#endif
     }
 
     SECTION("example 4")
     {
         auto fen = read_FEN("r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1");
+        const GameState game_state{fen.castling_ability, fen.en_passant_target_square};
         PerftDivide perft_divide;
 
         SECTION("depth 1")
@@ -422,7 +559,7 @@ TEST_CASE("perft/perft")
                                              "f1f2: 1\n"
                                              "g1h1: 1\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 1) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -435,7 +572,7 @@ TEST_CASE("perft/perft")
                                              "f1f2: 45\n"
                                              "g1h1: 46\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 2) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -448,27 +585,43 @@ TEST_CASE("perft/perft")
                                              "f1f2: 1623\n"
                                              "g1h1: 1753\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 3) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
-        // SECTION("depth 4")
-        //{
-        //     PerftDivide example_perft_divide("c4c5: 60769\n"
-        //                                      "d2d4: 72051\n"
-        //                                      "f3d4: 75736\n"
-        //                                      "b4c5: 58167\n"
-        //                                      "f1f2: 73972\n"
-        //                                      "g1h1: 81638\n");
+#if MORE_TESTS
+        SECTION("depth 4")
+        {
+            PerftDivide example_perft_divide("c4c5: 60769\n"
+                                             "d2d4: 72051\n"
+                                             "f3d4: 75736\n"
+                                             "b4c5: 58167\n"
+                                             "f1f2: 73972\n"
+                                             "g1h1: 81638\n");
 
-        //    CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-        //    check_perft_divide(perft_divide, example_perft_divide);
-        //}
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 4) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+
+        SECTION("depth 5")
+        {
+            PerftDivide example_perft_divide("c4c5: 2145218\n"
+                                             "d2d4: 2816009\n"
+                                             "f3d4: 2928923\n"
+                                             "b4c5: 2027632\n"
+                                             "f1f2: 2703427\n"
+                                             "g1h1: 3212083\n");
+
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 5) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+#endif
     }
 
     SECTION("example 5")
     {
         auto fen = read_FEN("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8");
+        const GameState game_state{fen.castling_ability, fen.en_passant_target_square};
         PerftDivide perft_divide;
 
         SECTION("depth 1")
@@ -518,7 +671,7 @@ TEST_CASE("perft/perft")
                                              "e1f2: 1\n"
                                              "e1g1: 1\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 1) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -569,7 +722,7 @@ TEST_CASE("perft/perft")
                                              "e1f2: 28\n"
                                              "e1g1: 34\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 2) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -620,65 +773,68 @@ TEST_CASE("perft/perft")
                                              "e1f2: 1269\n"
                                              "e1g1: 1376\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 3) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
-        // SECTION("depth 4")
-        //{
-        //     PerftDivide example_perft_divide("a2a3: 46833\n"
-        //                                      "b2b3: 46497\n"
-        //                                      "c2c3: 49406\n"
-        //                                      "g2g3: 44509\n"
-        //                                      "h2h3: 46762\n"
-        //                                      "a2a4: 48882\n"
-        //                                      "b2b4: 46696\n"
-        //                                      "g2g4: 45506\n"
-        //                                      "h2h4: 47811\n"
-        //                                      "d7c8q: 44226\n"
-        //                                      "d7c8r: 38077\n"
-        //                                      "d7c8b: 65053\n"
-        //                                      "d7c8n: 62009\n"
-        //                                      "b1d2: 40560\n"
-        //                                      "b1a3: 44378\n"
-        //                                      "b1c3: 50303\n"
-        //                                      "e2g1: 48844\n"
-        //                                      "e2c3: 54792\n"
-        //                                      "e2g3: 51892\n"
-        //                                      "e2d4: 52109\n"
-        //                                      "e2f4: 51127\n"
-        //                                      "c1d2: 46881\n"
-        //                                      "c1e3: 53637\n"
-        //                                      "c1f4: 52350\n"
-        //                                      "c1g5: 45601\n"
-        //                                      "c1h6: 40913\n"
-        //                                      "c4b3: 43453\n"
-        //                                      "c4d3: 43565\n"
-        //                                      "c4b5: 45559\n"
-        //                                      "c4d5: 48002\n"
-        //                                      "c4a6: 41884\n"
-        //                                      "c4e6: 49872\n"
-        //                                      "c4f7: 43289\n"
-        //                                      "h1f1: 46101\n"
-        //                                      "h1g1: 44668\n"
-        //                                      "d1d2: 48843\n"
-        //                                      "d1d3: 57153\n"
-        //                                      "d1d4: 57744\n"
-        //                                      "d1d5: 56899\n"
-        //                                      "d1d6: 43766\n"
-        //                                      "e1f1: 49775\n"
-        //                                      "e1d2: 33423\n"
-        //                                      "e1f2: 36783\n"
-        //                                      "e1g1: 47054\n");
+#if MORE_TESTS
+        SECTION("depth 4")
+        {
+            PerftDivide example_perft_divide("a2a3: 46833\n"
+                                             "b2b3: 46497\n"
+                                             "c2c3: 49406\n"
+                                             "g2g3: 44509\n"
+                                             "h2h3: 46762\n"
+                                             "a2a4: 48882\n"
+                                             "b2b4: 46696\n"
+                                             "g2g4: 45506\n"
+                                             "h2h4: 47811\n"
+                                             "d7c8q: 44226\n"
+                                             "d7c8r: 38077\n"
+                                             "d7c8b: 65053\n"
+                                             "d7c8n: 62009\n"
+                                             "b1d2: 40560\n"
+                                             "b1a3: 44378\n"
+                                             "b1c3: 50303\n"
+                                             "e2g1: 48844\n"
+                                             "e2c3: 54792\n"
+                                             "e2g3: 51892\n"
+                                             "e2d4: 52109\n"
+                                             "e2f4: 51127\n"
+                                             "c1d2: 46881\n"
+                                             "c1e3: 53637\n"
+                                             "c1f4: 52350\n"
+                                             "c1g5: 45601\n"
+                                             "c1h6: 40913\n"
+                                             "c4b3: 43453\n"
+                                             "c4d3: 43565\n"
+                                             "c4b5: 45559\n"
+                                             "c4d5: 48002\n"
+                                             "c4a6: 41884\n"
+                                             "c4e6: 49872\n"
+                                             "c4f7: 43289\n"
+                                             "h1f1: 46101\n"
+                                             "h1g1: 44668\n"
+                                             "d1d2: 48843\n"
+                                             "d1d3: 57153\n"
+                                             "d1d4: 57744\n"
+                                             "d1d5: 56899\n"
+                                             "d1d6: 43766\n"
+                                             "e1f1: 49775\n"
+                                             "e1d2: 33423\n"
+                                             "e1f2: 36783\n"
+                                             "e1g1: 47054\n");
 
-        //    CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-        //    CHECK(check_perft_divide(perft_divide, example_perft_divide);
-        //}
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 4) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+#endif
     }
 
     SECTION("example 6")
     {
         auto fen = read_FEN("r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10");
+        const GameState game_state{fen.castling_ability, fen.en_passant_target_square};
         PerftDivide perft_divide;
 
         SECTION("depth 1")
@@ -730,7 +886,7 @@ TEST_CASE("perft/perft")
                                              "e2e3: 1\n"
                                              "g1h1: 1\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 1) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 1) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -783,7 +939,7 @@ TEST_CASE("perft/perft")
                                              "e2e3: 45\n"
                                              "g1h1: 46\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 2) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 2) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
@@ -836,62 +992,64 @@ TEST_CASE("perft/perft")
                                              "e2e3: 2121\n"
                                              "g1h1: 2211\n");
 
-            CHECK(perft(fen.side_to_move, fen.board, perft_divide, 3) == example_perft_divide.total_moves());
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 3) == example_perft_divide.total_moves());
             check_perft_divide(perft_divide, example_perft_divide);
         }
 
-        // SECTION("depth 4")
-        //{
-        //     PerftDivide example_perft_divide("b2b3: 83959\n"
-        //                                      "g2g3: 89798\n"
-        //                                      "h2h3: 93404\n"
-        //                                      "a3a4: 89719\n"
-        //                                      "d3d4: 93464\n"
-        //                                      "b2b4: 85907\n"
-        //                                      "h2h4: 87792\n"
-        //                                      "c3b1: 74196\n"
-        //                                      "c3d1: 72167\n"
-        //                                      "c3a2: 81990\n"
-        //                                      "c3a4: 83785\n"
-        //                                      "c3b5: 86102\n"
-        //                                      "c3d5: 84310\n"
-        //                                      "f3e1: 77246\n"
-        //                                      "f3d2: 87558\n"
-        //                                      "f3d4: 98744\n"
-        //                                      "f3h4: 89355\n"
-        //                                      "f3e5: 111761\n"
-        //                                      "c4a2: 83990\n"
-        //                                      "c4b3: 84078\n"
-        //                                      "c4b5: 84686\n"
-        //                                      "c4d5: 82111\n"
-        //                                      "c4a6: 87691\n"
-        //                                      "c4e6: 88890\n"
-        //                                      "c4f7: 8203\n"
-        //                                      "g5c1: 81175\n"
-        //                                      "g5d2: 89433\n"
-        //                                      "g5e3: 91743\n"
-        //                                      "g5f4: 99547\n"
-        //                                      "g5h4: 83607\n"
-        //                                      "g5f6: 79097\n"
-        //                                      "g5h6: 89238\n"
-        //                                      "a1b1: 83917\n"
-        //                                      "a1c1: 81943\n"
-        //                                      "a1d1: 79961\n"
-        //                                      "a1e1: 76017\n"
-        //                                      "a1a2: 80000\n"
-        //                                      "f1b1: 83966\n"
-        //                                      "f1c1: 85946\n"
-        //                                      "f1d1: 87918\n"
-        //                                      "f1e1: 87928\n"
-        //                                      "e2d1: 82176\n"
-        //                                      "e2e1: 84117\n"
-        //                                      "e2d2: 89961\n"
-        //                                      "e2e3: 90128\n"
-        //                                      "g1h1: 95870\n");
+#if MORE_TESTS
+        SECTION("depth 4")
+        {
+            PerftDivide example_perft_divide("b2b3: 83959\n"
+                                             "g2g3: 89798\n"
+                                             "h2h3: 93404\n"
+                                             "a3a4: 89719\n"
+                                             "d3d4: 93464\n"
+                                             "b2b4: 85907\n"
+                                             "h2h4: 87792\n"
+                                             "c3b1: 74196\n"
+                                             "c3d1: 72167\n"
+                                             "c3a2: 81990\n"
+                                             "c3a4: 83785\n"
+                                             "c3b5: 86102\n"
+                                             "c3d5: 84310\n"
+                                             "f3e1: 77246\n"
+                                             "f3d2: 87558\n"
+                                             "f3d4: 98744\n"
+                                             "f3h4: 89355\n"
+                                             "f3e5: 111761\n"
+                                             "c4a2: 83990\n"
+                                             "c4b3: 84078\n"
+                                             "c4b5: 84686\n"
+                                             "c4d5: 82111\n"
+                                             "c4a6: 87691\n"
+                                             "c4e6: 88890\n"
+                                             "c4f7: 8203\n"
+                                             "g5c1: 81175\n"
+                                             "g5d2: 89433\n"
+                                             "g5e3: 91743\n"
+                                             "g5f4: 99547\n"
+                                             "g5h4: 83607\n"
+                                             "g5f6: 79097\n"
+                                             "g5h6: 89238\n"
+                                             "a1b1: 83917\n"
+                                             "a1c1: 81943\n"
+                                             "a1d1: 79961\n"
+                                             "a1e1: 76017\n"
+                                             "a1a2: 80000\n"
+                                             "f1b1: 83966\n"
+                                             "f1c1: 85946\n"
+                                             "f1d1: 87918\n"
+                                             "f1e1: 87928\n"
+                                             "e2d1: 82176\n"
+                                             "e2e1: 84117\n"
+                                             "e2d2: 89961\n"
+                                             "e2e3: 90128\n"
+                                             "g1h1: 95870\n");
 
-        //    CHECK(perft(fen.side_to_move, fen.board, perft_divide, 4) == example_perft_divide.total_moves());
-        //    CHECK(check_perft_divide(perft_divide, example_perft_divide);
-        //}
+            CHECK(perft(fen.side_to_move, fen.board, game_state, perft_divide, 4) == example_perft_divide.total_moves());
+            check_perft_divide(perft_divide, example_perft_divide);
+        }
+#endif
     }
 }
 

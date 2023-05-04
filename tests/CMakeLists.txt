@@ -19,6 +19,7 @@ if(BUILD_TESTING)
         grid_gridcell.cpp
         input_eval_input.cpp
         move_generator_game_state.cpp
+        move_generator_legal_moves.cpp
         move_generator_list_moves.cpp
         move_generator_moves.cpp
         notation_fen.cpp

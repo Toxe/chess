@@ -14,8 +14,8 @@ TEST_CASE("move_generator/list_moves")
     {
         SECTION("default board")
         {
-            const auto moves_white = list_moves(Player::white, Board::create_with_default_pieces());
-            const auto moves_black = list_moves(Player::black, Board::create_with_default_pieces());
+            const auto moves_white = list_moves(Board::create_with_default_pieces(), Player::white);
+            const auto moves_black = list_moves(Board::create_with_default_pieces(), Player::black);
 
             CHECK(moves_white.size() == 20);
             CHECK(moves_black.size() == 20);
@@ -36,8 +36,8 @@ TEST_CASE("move_generator/list_moves")
                 "R-----B-",
             });
 
-            const auto moves_white = list_moves(Player::white, board);
-            const auto moves_black = list_moves(Player::black, board);
+            const auto moves_white = list_moves(board, Player::white);
+            const auto moves_black = list_moves(board, Player::black);
 
             CHECK(moves_white.size() == 48);
             CHECK(count_moves(moves_white, MoveType::normal) == 40);
