@@ -36,6 +36,8 @@ add_library(lib_chess
     input/eval_input.hpp
     input/receive_player_command.cpp
     input/receive_player_command.hpp
+    move_generator/game_state.cpp
+    move_generator/game_state.hpp
     move_generator/list_moves.cpp
     move_generator/list_moves.hpp
     move_generator/list_moves_detail.hpp
