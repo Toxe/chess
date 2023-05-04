@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../board/square.hpp"
+#include "../game/move.hpp"
 
 namespace chess {
 
@@ -14,7 +15,7 @@ public:
     PerftDivide() = default;
     PerftDivide(const std::string& example_data);
 
-    void add(Square from, Square to, uint64_t num_moves);
+    void add(Move move, uint64_t num_moves);
 
     std::size_t size() const { return map_.size(); }
     uint64_t total_moves() const;

@@ -15,14 +15,22 @@ TEST_CASE("perft/print")
                                      "a1a2: 5\n"
                                      "f4f6: 20\n"
                                      "b2c2: 10\n"
+                                     "d7c8q: 1\n"
+                                     "d7c8r: 1\n"
+                                     "d7c8b: 1\n"
+                                     "d7c8n: 1\n"
                                      "f4f5: 100\n"};
 
             const std::string s = "a1a2: 5\n"
                                   "a1a3: 50\n"
                                   "b2c2: 10\n"
+                                  "d7c8b: 1\n"
+                                  "d7c8n: 1\n"
+                                  "d7c8q: 1\n"
+                                  "d7c8r: 1\n"
                                   "f4f5: 100\n"
                                   "f4f6: 20\n"
-                                  "total: 185";
+                                  "total: 189";
 
             CHECK_THAT(print_perft_divide(perft_divide), Catch::Matchers::Equals(s));
         }

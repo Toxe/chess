@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "../board/print.hpp"
+#include "../game/print.hpp"
 
 namespace chess {
 
@@ -20,13 +21,18 @@ PerftDivide::PerftDivide(const std::string& example_data)
         if (!in.good())
             break;
 
-        map_[move.substr(0, 4)] = count;
+        map_[move.substr(0, move.size() - 1)] = count;
     }
 }
 
-void PerftDivide::add(Square from, Square to, uint64_t num_moves)
+void PerftDivide::add(const Move move, const uint64_t num_moves)
 {
-    map_[print_square(from) + print_square(to)] = num_moves;
+    std::string key = print_square(move.from) + print_square(move.to);
+
+    if (move.type == MoveType::promotion || move.type == MoveType::capture_and_promotion)
+        key += print_piece_letter(Piece{Player::black, move.piece.type});  // always lowercase (for example 'q' instead of 'Q')
+
+    map_[key] = num_moves;
 }
 
 uint64_t PerftDivide::total_moves() const
