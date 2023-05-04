@@ -1,5 +1,6 @@
 if(BUILD_TESTING)
     add_executable(tests
+        ai_receive_ai_command.cpp
         app_app_controller.cpp
         app_commands.cpp
         board_board.cpp
@@ -21,6 +22,7 @@ if(BUILD_TESTING)
         move_generator_game_state.cpp
         move_generator_legal_moves.cpp
         move_generator_list_moves.cpp
+        move_generator_move_generator.cpp
         move_generator_moves.cpp
         notation_fen.cpp
         perft_perft.cpp

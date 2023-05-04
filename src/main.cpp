@@ -1,5 +1,6 @@
 #include <utility>
 
+#include "ai/receive_ai_command.hpp"
 #include "app/app_controller.hpp"
 #include "board/board.hpp"
 #include "board/print.hpp"
@@ -15,7 +16,7 @@ using namespace chess;
 int main()
 {
     Board board = Board::create_with_default_pieces();
-    GamePlayers game_players{PlayerType::human, PlayerType::human};
+    GamePlayers game_players{PlayerType::human, PlayerType::ai};
     AppController controller;
     ConsoleWriter console_writer;
     const CommandFactory command_factory{board, game_players, controller, console_writer};
@@ -26,7 +27,7 @@ int main()
 
         console_writer.write(print_board(board));
 
-        auto command = receive_player_command(player, board, console_writer, command_factory);
+        auto command = is_human_player ? receive_player_command(player, board, console_writer, command_factory) : receive_ai_command(player, board, command_factory, console_writer);
         controller.execute(std::move(command));
     }
 

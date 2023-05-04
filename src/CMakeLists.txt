@@ -1,4 +1,6 @@
 add_library(lib_chess
+    ai/receive_ai_command.cpp
+    ai/receive_ai_command.hpp
     app/app_controller.cpp
     app/app_controller.hpp
     app/commands.cpp
@@ -43,6 +45,8 @@ add_library(lib_chess
     move_generator/list_moves.cpp
     move_generator/list_moves.hpp
     move_generator/list_moves_detail.hpp
+    move_generator/move_generator.cpp
+    move_generator/move_generator.hpp
     move_generator/moves.cpp
     move_generator/moves.hpp
     notation/fen.cpp
