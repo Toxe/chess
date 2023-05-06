@@ -1,12 +1,12 @@
 #include "list_moves.hpp"
 
-#include "../board/rank.hpp"
-#include "list_moves_detail.hpp"
-
 #include <array>
 #include <cassert>
 #include <cmath>
 #include <stdexcept>
+
+#include "../board/rank.hpp"
+#include "list_moves_detail.hpp"
 
 namespace chess::detail::list_moves {
 

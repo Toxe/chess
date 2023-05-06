@@ -7,6 +7,35 @@
 
 namespace chess {
 
+bool is_check(const Board& board, const Player player)
+{
+    const Player opponent = opposing_player(player);
+    const auto opponent_moves = list_moves(board, opponent);
+    const auto king = Piece{player, PieceType::king};
+
+    return std::any_of(opponent_moves.begin(), opponent_moves.end(), [=](const Move& move) { return move.captured_piece == king; });
+}
+
+bool move_would_result_in_check(Board& board, const Move move)
+{
+    make_move(board, move);
+    const bool check = is_check(board, move.piece.player);
+    undo_move(board, move);
+
+    return check;
+}
+
+bool would_square_be_under_attack(Board& board, const Move move, const Square square_under_attack)
+{
+    const Player opponent = opposing_player(move.piece.player);
+
+    make_move(board, move);
+    const auto opponent_moves = list_moves(board, opponent);
+    undo_move(board, move);
+
+    return std::any_of(opponent_moves.begin(), opponent_moves.end(), [=](const Move& move) { return move.to == square_under_attack; });
+}
+
 bool can_castle(Board& board, const GameState game_state, const Move move)
 {
     assert(move.type == MoveType::castling);
@@ -26,14 +55,8 @@ bool can_castle(Board& board, const GameState game_state, const Move move)
 
     const Square square_under_attack{kingside ? static_cast<Square::coordinates_type>(5) : static_cast<Square::coordinates_type>(3), move.to.y};
 
-    make_move(board, move);
-
-    if (is_square_under_attack(board, move.piece.player, square_under_attack)) {
-        undo_move(board, move);
+    if (would_square_be_under_attack(board, move, square_under_attack))
         return false;
-    }
-
-    undo_move(board, move);
 
     return true;
 }
@@ -61,33 +84,10 @@ bool is_legal_move(Board& board, const GameState game_state, const Move move)
             return false;
 
     // check
-    make_move(board, move);
-
-    if (is_check(board, move.piece.player)) {
-        undo_move(board, move);
+    if (move_would_result_in_check(board, move))
         return false;
-    }
-
-    undo_move(board, move);
 
     return true;
-}
-
-bool is_check(const Board& board, const Player player)
-{
-    const Player opponent = opposing_player(player);
-    const auto moves = list_moves(board, opponent);
-    const auto king = Piece{player, PieceType::king};
-
-    return std::any_of(moves.begin(), moves.end(), [=](const Move& move) { return move.captured_piece == king; });
-}
-
-bool is_square_under_attack(const Board& board, const Player player, const Square square_under_attack)
-{
-    const Player opponent = opposing_player(player);
-    const auto moves = list_moves(board, opponent);
-
-    return std::any_of(moves.begin(), moves.end(), [=](const Move& move) { return move.to == square_under_attack; });
 }
 
 }  // namespace chess
