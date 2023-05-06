@@ -331,6 +331,7 @@ using namespace detail::list_moves;
 Moves list_moves(const Board& board, const Player player)
 {
     Moves moves;
+    moves.reserve(80);
 
     for (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {

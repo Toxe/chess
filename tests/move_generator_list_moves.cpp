@@ -62,6 +62,7 @@ TEST_CASE("move_generator/list_moves")
         SECTION("list moves for each piece type")
         {
             Moves moves;
+            moves.reserve(80);
 
             SECTION("pawn")
             {
@@ -214,6 +215,7 @@ TEST_CASE("move_generator/list_moves")
         SECTION("move creation functions")
         {
             Moves moves;
+            moves.reserve(80);
 
             SECTION("list_moves_for_piece()")
             {
