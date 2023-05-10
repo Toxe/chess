@@ -103,14 +103,14 @@ TEST_CASE("game/print")
             CHECK_THAT(print_game_over(WinCondition::draw), Catch::Matchers::Equals("Draw!"));
         }
 
-        SECTION("White won")
+        SECTION("checkmate white")
         {
-            CHECK_THAT(print_game_over(WinCondition::player1_won), Catch::Matchers::Equals("White won!"));
+            CHECK_THAT(print_game_over(WinCondition::checkmate_white), Catch::Matchers::Equals("Checkmate White! Black won!"));
         }
 
-        SECTION("Black won")
+        SECTION("checkmate black")
         {
-            CHECK_THAT(print_game_over(WinCondition::player2_won), Catch::Matchers::Equals("Black won!"));
+            CHECK_THAT(print_game_over(WinCondition::checkmate_black), Catch::Matchers::Equals("Checkmate Black! White won!"));
         }
     }
 }
