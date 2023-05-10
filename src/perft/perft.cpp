@@ -11,7 +11,7 @@ uint64_t perft(const Player player, Board& board, GameState game_state, PerftDiv
         return 1;
 
     const Player opponent = opposing_player(player);
-    auto moves = list_moves(board, player);
+    const auto moves = list_moves(board, player);
     uint64_t total_moves = 0;
 
     for (const auto& move : moves) {
