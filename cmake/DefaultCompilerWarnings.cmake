@@ -71,6 +71,8 @@ set(DEFAULT_MSVC_OPTIONS
 set(DEFAULT_CLANG_CL_OPTIONS
         ${SHARED_CLANG_AND_CLANG_CL_AND_GCC_OPTIONS}
         ${DEFAULT_MSVC_OPTIONS}
+        -Wmost
+        -Wpedantic
         -Wshadow-all
 )
 
