@@ -46,6 +46,7 @@ set(DEFAULT_GCC_OPTIONS
 # MSVC specific options
 set(DEFAULT_MSVC_OPTIONS
         /W4
+        /w14062  # C4062: enumerator 'identifier' in switch of enum 'enumeration' is not handled
         /w14242  # C4242: 'identifier': conversion from 'type1' to 'type2', possible loss of data
         /w14254  # C4254: 'operator': conversion from 'type1' to 'type2', possible loss of data
         /w14263  # C4263: 'function': member function does not override any base class virtual member function
