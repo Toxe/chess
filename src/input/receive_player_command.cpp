@@ -1,7 +1,9 @@
 #include "receive_player_command.hpp"
 
+#include <iostream>
+#include <limits>
+
 #include "fmt/core.h"
-#include "scn/all.h"
 
 #include "../game/print.hpp"
 #include "../output/console_writer.hpp"
@@ -9,15 +11,24 @@
 
 namespace chess {
 
+void clear_input()
+{
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
 std::string read_input(const Player player, ConsoleWriter& console_writer)
 {
     std::string input;
 
     while (true) {
-        if (scn::prompt(fmt::format("{}, your move? (type \"?\" for help)\n? ", print_player_side(player)).c_str(), "{}", input))
+        console_writer.write(fmt::format("{}, your move? (type \"?\" for help)\n? ", print_player_side(player)));
+
+        if ((std::cin >> input))
             break;
 
         console_writer.writeln("invalid input");
+        clear_input();
     }
 
     return input;
