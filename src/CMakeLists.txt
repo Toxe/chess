@@ -70,6 +70,10 @@ target_link_options(lib_chess PRIVATE ${SANITIZER_LINK_OPTIONS})
 target_link_libraries(lib_chess PRIVATE ${SANITIZER_LINK_LIBRARIES} fmt::fmt tl::expected)
 target_include_directories(lib_chess INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
+set_target_properties(lib_chess PROPERTIES FOLDER "Chess")
+get_target_property(lib_chess_sources lib_chess SOURCES)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Sources" FILES ${lib_chess_sources})
+
 # main executable
 add_executable(chess main.cpp)
 set_target_properties(chess PROPERTIES CXX_EXTENSIONS OFF)
@@ -77,3 +81,7 @@ target_compile_features(chess PUBLIC cxx_std_20)
 target_compile_options(chess PRIVATE ${SANITIZER_COMPILE_OPTIONS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS})
 target_link_options(chess PRIVATE ${SANITIZER_LINK_OPTIONS})
 target_link_libraries(chess PRIVATE ${SANITIZER_LINK_LIBRARIES} lib_chess)
+
+set_target_properties(chess PROPERTIES FOLDER "Chess")
+get_target_property(chess_sources chess SOURCES)
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Sources" FILES ${chess_sources})

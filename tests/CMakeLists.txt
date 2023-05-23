@@ -36,5 +36,9 @@ if(BUILD_TESTING)
     target_link_options(tests PRIVATE ${SANITIZER_LINK_OPTIONS})
     target_link_libraries(tests PRIVATE ${SANITIZER_LINK_LIBRARIES} lib_chess Catch2::Catch2WithMain)
 
+    set_target_properties(tests PROPERTIES FOLDER "Chess")
+    get_target_property(tests_sources tests SOURCES)
+    source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Sources" FILES ${tests_sources})
+
     add_test(NAME tests COMMAND tests)
 endif()
