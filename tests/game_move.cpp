@@ -164,6 +164,12 @@ TEST_CASE("game/move")
         CHECK((move == Move::create_normal(Square{"d3"}, Square{"d4"}, Piece{'P'})) == false);
     }
 
+    SECTION("player() returns the player that made the move")
+    {
+        CHECK(Move::create_normal(Square{"a2"}, Square{"a3"}, Piece{'P'}).player() == Player::white);
+        CHECK(Move::create_normal(Square{"a7"}, Square{"a6"}, Piece{'p'}).player() == Player::black);
+    }
+
     SECTION("make_move() and undo_move() apply and revert moves")
     {
         auto board = Board::create_from_letter_data({

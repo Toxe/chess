@@ -28,6 +28,8 @@ struct Move {
     static Move create_castling(Square move_from, Square move_to, Piece moved_piece);
     static Move create_en_passant(Square move_from, Square move_to, Piece moved_piece);
 
+    [[nodiscard]] Player player() const { return piece.player; }
+
     bool operator==(const Move& other) const = default;
     bool operator!=(const Move& other) const = default;
 

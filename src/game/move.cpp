@@ -70,7 +70,7 @@ void make_move(Board& board, const Move move)
             break;
 
         case MoveType::promotion:
-            assert((board.piece(move.from) == Piece{move.piece.player, PieceType::pawn}));
+            assert((board.piece(move.from) == Piece{move.player(), PieceType::pawn}));
             assert(board.piece(move.to) == no_piece);
             board.change_piece(move.from, no_piece);
             board.change_piece(move.to, move.piece);
@@ -84,7 +84,7 @@ void make_move(Board& board, const Move move)
             break;
 
         case MoveType::capture_and_promotion:
-            assert((board.piece(move.from) == Piece{move.piece.player, PieceType::pawn}));
+            assert((board.piece(move.from) == Piece{move.player(), PieceType::pawn}));
             assert(board.piece(move.to) == move.captured_piece);
             board.change_piece(move.from, no_piece);
             board.change_piece(move.to, move.piece);
@@ -99,13 +99,13 @@ void make_move(Board& board, const Move move)
             // kingside or queenside?
             if (castling_kingside(move.to)) {
                 assert(board.piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}) == no_piece);
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}) == Piece{move.piece.player, PieceType::rook}));
-                board.change_piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}, Piece{move.piece.player, PieceType::rook});
+                assert((board.piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}) == Piece{move.player(), PieceType::rook}));
+                board.change_piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}, Piece{move.player(), PieceType::rook});
                 board.change_piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}, no_piece);
             } else {
                 assert(board.piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}) == no_piece);
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}) == Piece{move.piece.player, PieceType::rook}));
-                board.change_piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}, Piece{move.piece.player, PieceType::rook});
+                assert((board.piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}) == Piece{move.player(), PieceType::rook}));
+                board.change_piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}, Piece{move.player(), PieceType::rook});
                 board.change_piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}, no_piece);
             }
             break;
@@ -137,7 +137,7 @@ void undo_move(Board& board, const Move move)
         case MoveType::promotion:
             assert(board.piece(move.from) == no_piece);
             assert(board.piece(move.to) == move.piece);
-            board.change_piece(move.from, Piece{move.piece.player, PieceType::pawn});
+            board.change_piece(move.from, Piece{move.player(), PieceType::pawn});
             board.change_piece(move.to, no_piece);
             break;
 
@@ -151,7 +151,7 @@ void undo_move(Board& board, const Move move)
         case MoveType::capture_and_promotion:
             assert(board.piece(move.from) == no_piece);
             assert(board.piece(move.to) == move.piece);
-            board.change_piece(move.from, Piece{move.piece.player, PieceType::pawn});
+            board.change_piece(move.from, Piece{move.player(), PieceType::pawn});
             board.change_piece(move.to, move.captured_piece);
             break;
 
@@ -163,15 +163,15 @@ void undo_move(Board& board, const Move move)
 
             // kingside or queenside?
             if (castling_kingside(move.to)) {
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}) == Piece{move.piece.player, PieceType::rook}));
+                assert((board.piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}) == Piece{move.player(), PieceType::rook}));
                 assert(board.piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}) == no_piece);
                 board.change_piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}, no_piece);
-                board.change_piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}, Piece{move.piece.player, PieceType::rook});
+                board.change_piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}, Piece{move.player(), PieceType::rook});
             } else {
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}) == Piece{move.piece.player, PieceType::rook}));
+                assert((board.piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}) == Piece{move.player(), PieceType::rook}));
                 assert(board.piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}) == no_piece);
                 board.change_piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}, no_piece);
-                board.change_piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}, Piece{move.piece.player, PieceType::rook});
+                board.change_piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}, Piece{move.player(), PieceType::rook});
             }
             break;
 

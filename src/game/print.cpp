@@ -118,9 +118,9 @@ std::string detailed_move_description(const Move move)
 {
     switch (move.type) {
         case MoveType::normal: return fmt::format("{} {} to {}", print_piece_descriptive(move.piece), print_square(move.from), print_square(move.to));
-        case MoveType::promotion: return fmt::format("{} {} to {}, promotion to {}", print_piece_descriptive(Piece{move.piece.player, PieceType::pawn}), print_square(move.from), print_square(move.to), print_piece_type(move.piece.type));
+        case MoveType::promotion: return fmt::format("{} {} to {}, promotion to {}", print_piece_descriptive(Piece{move.player(), PieceType::pawn}), print_square(move.from), print_square(move.to), print_piece_type(move.piece.type));
         case MoveType::capture: return fmt::format("{} {} to {}, capture {}", print_piece_descriptive(move.piece), print_square(move.from), print_square(move.to), print_piece_descriptive(move.captured_piece));
-        case MoveType::capture_and_promotion: return fmt::format("{} {} to {}, capture {}, promotion to {}", print_piece_descriptive(Piece{move.piece.player, PieceType::pawn}), print_square(move.from), print_square(move.to), print_piece_descriptive(move.captured_piece), print_piece_type(move.piece.type));
+        case MoveType::capture_and_promotion: return fmt::format("{} {} to {}, capture {}, promotion to {}", print_piece_descriptive(Piece{move.player(), PieceType::pawn}), print_square(move.from), print_square(move.to), print_piece_descriptive(move.captured_piece), print_piece_type(move.piece.type));
         case MoveType::castling: return fmt::format("{} {} castling {} to {}", print_piece_descriptive(move.piece), print_square(move.from), castling_kingside(move.to) ? "kingside" : "queenside", print_square(move.to));
         case MoveType::en_passant: return fmt::format("{} {} en passant to {}", print_piece_descriptive(move.piece), print_square(move.from), print_square(move.to));
     }

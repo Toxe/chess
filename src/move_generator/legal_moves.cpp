@@ -19,7 +19,7 @@ bool is_check(const Board& board, const Player player)
 bool move_would_result_in_check(Board& board, const Move move)
 {
     make_move(board, move);
-    const bool check = is_check(board, move.piece.player);
+    const bool check = is_check(board, move.player());
     undo_move(board, move);
 
     return check;
@@ -27,7 +27,7 @@ bool move_would_result_in_check(Board& board, const Move move)
 
 bool would_square_be_under_attack(Board& board, const Move move, const Square square_under_attack)
 {
-    const Player opponent = opposing_player(move.piece.player);
+    const Player opponent = opposing_player(move.player());
 
     make_move(board, move);
     const auto opponent_moves = list_moves(board, opponent);
@@ -40,12 +40,12 @@ bool can_castle(Board& board, const GameState game_state, const Move move)
 {
     assert(move.type == MoveType::castling);
 
-    if (is_check(board, move.piece.player))
+    if (is_check(board, move.player()))
         return false;
 
     const bool kingside = castling_kingside(move.to);
 
-    if (move.piece.player == Player::white) {
+    if (move.player() == Player::white) {
         if (!game_state.castling_ability.has(kingside ? CastlingRight::white_king : CastlingRight::white_queen))
             return false;
     } else {
