@@ -31,7 +31,7 @@ if(BUILD_TESTING)
     )
 
     set_target_properties(tests PROPERTIES CXX_EXTENSIONS OFF)
-    target_compile_features(tests PUBLIC cxx_std_20)
+    target_compile_features(tests PUBLIC cxx_std_23)
     target_compile_options(tests PRIVATE ${SANITIZER_COMPILE_OPTIONS} ${DEFAULT_COMPILER_OPTIONS} ${DEFAULT_COMPILER_WARNINGS})
     target_link_options(tests PRIVATE ${SANITIZER_LINK_OPTIONS})
     target_link_libraries(tests PRIVATE ${SANITIZER_LINK_LIBRARIES} lib_chess Catch2::Catch2WithMain)
