@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cmath>
 #include <stdexcept>
+#include <utility>
 
 #include "../board/rank.hpp"
 #include "list_moves_detail.hpp"
@@ -27,9 +28,10 @@ int list_moves_for_piece(const Board& board, const BoardPiece board_piece, Moves
         case PieceType::rook: return list_moves_for_rook(board, board_piece, moves);
         case PieceType::queen: return list_moves_for_queen(board, board_piece, moves);
         case PieceType::king: return list_moves_for_king(board, board_piece, moves);
-        default:
-            throw std::runtime_error("invalid piece type");
+        case PieceType::none: throw std::runtime_error("invalid piece type");
     }
+
+    std::unreachable();
 }
 
 int list_moves_for_pawn(const Board& board, const BoardPiece board_piece, Moves& moves)
