@@ -33,7 +33,7 @@ bool would_square_be_under_attack(Board& board, const Move move, const Square sq
     const auto opponent_moves = list_moves(board, opponent);
     undo_move(board, move);
 
-    return std::any_of(opponent_moves.begin(), opponent_moves.end(), [=](const Move& move) { return move.to == square_under_attack; });
+    return std::any_of(opponent_moves.begin(), opponent_moves.end(), [=](const Move& m) { return m.to == square_under_attack; });
 }
 
 bool can_castle(Board& board, const GameState game_state, const Move move)
