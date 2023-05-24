@@ -29,12 +29,12 @@ TEST_CASE("game/win_conditions")
 
     SECTION("a draw means game over")
     {
-        CHECK(game_over(WinCondition::draw));
+        CHECK(game_over(WinCondition::stalemate));
     }
 
-    SECTION("checkmate")
+    SECTION("win: checkmate")
     {
-        SECTION("checkmate white #1")
+        SECTION("example 1")
         {
             Board board = Board::create_from_letter_data({
                 "----k---",
@@ -49,9 +49,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::white));
             CHECK(is_checkmate(board, Player::black) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_white);
         }
 
-        SECTION("checkmate white #2")
+        SECTION("example 2")
         {
             Board board = Board::create_from_letter_data({
                 "rnb-kbnr",
@@ -66,9 +67,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::white));
             CHECK(is_checkmate(board, Player::black) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_white);
         }
 
-        SECTION("checkmate white #3")
+        SECTION("example 3")
         {
             Board board = Board::create_from_letter_data({
                 "-Q------",
@@ -83,9 +85,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::white));
             CHECK(is_checkmate(board, Player::black) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_white);
         }
 
-        SECTION("checkmate black #1")
+        SECTION("example 4")
         {
             Board board = Board::create_from_letter_data({
                 "--------",
@@ -100,9 +103,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
         }
 
-        SECTION("checkmate black #2")
+        SECTION("example 5")
         {
             Board board = Board::create_from_letter_data({
                 "--------",
@@ -117,9 +121,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
         }
 
-        SECTION("checkmate black #3")
+        SECTION("example 6")
         {
             Board board = Board::create_from_letter_data({
                 "--------",
@@ -134,9 +139,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
         }
 
-        SECTION("checkmate black #4")
+        SECTION("example 7")
         {
             Board board = Board::create_from_letter_data({
                 "--------",
@@ -151,9 +157,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
         }
 
-        SECTION("checkmate black #5")
+        SECTION("example 8")
         {
             Board board = Board::create_from_letter_data({
                 "--------",
@@ -168,9 +175,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
         }
 
-        SECTION("checkmate black #6")
+        SECTION("example 9")
         {
             Board board = Board::create_from_letter_data({
                 "---k---R",
@@ -185,9 +193,10 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
         }
 
-        SECTION("checkmate black #7")
+        SECTION("example 10")
         {
             Board board = Board::create_from_letter_data({
                 "-k------",
@@ -202,6 +211,136 @@ TEST_CASE("game/win_conditions")
 
             CHECK(is_checkmate(board, Player::black));
             CHECK(is_checkmate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::checkmate_black);
+        }
+    }
+
+    SECTION("draw: stalemate")
+    {
+        SECTION("example 1")
+        {
+            Board board = Board::create_from_letter_data({
+                "-------k",
+                "--------",
+                "------Q-",
+                "--------",
+                "--------",
+                "--------",
+                "--------",
+                "K-------",
+            });
+
+            CHECK(is_stalemate(board, Player::black));
+            CHECK(is_stalemate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
+        }
+
+        SECTION("example 2")
+        {
+            Board board = Board::create_from_letter_data({
+                "-----k--",
+                "-----P--",
+                "-----K--",
+                "--------",
+                "--------",
+                "--------",
+                "--------",
+                "--------",
+            });
+
+            CHECK(is_stalemate(board, Player::black));
+            CHECK(is_stalemate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
+        }
+
+        SECTION("example 3")
+        {
+            Board board = Board::create_from_letter_data({
+                "kb-----R",
+                "--------",
+                "-K------",
+                "--------",
+                "--------",
+                "--------",
+                "--------",
+                "--------",
+            });
+
+            CHECK(is_stalemate(board, Player::black));
+            CHECK(is_stalemate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
+        }
+
+        SECTION("example 4")
+        {
+            Board board = Board::create_from_letter_data({
+                "--------",
+                "--------",
+                "--------",
+                "------K-",
+                "--------",
+                "-Q------",
+                "p-------",
+                "k-------",
+            });
+
+            CHECK(is_stalemate(board, Player::black));
+            CHECK(is_stalemate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
+        }
+
+        SECTION("example 5")
+        {
+            Board board = Board::create_from_letter_data({
+                "k-------",
+                "P-------",
+                "K-------",
+                "--------",
+                "-----B--",
+                "--------",
+                "--------",
+                "--------",
+            });
+
+            CHECK(is_stalemate(board, Player::black));
+            CHECK(is_stalemate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
+        }
+
+        SECTION("example 6")
+        {
+            Board board = Board::create_from_letter_data({
+                "--------",
+                "------p-",
+                "-----p--",
+                "-----k-K",
+                "-------P",
+                "--------",
+                "--------",
+                "--------",
+            });
+
+            CHECK(is_stalemate(board, Player::white));
+            CHECK(is_stalemate(board, Player::black) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
+        }
+
+        SECTION("example 7")
+        {
+            Board board = Board::create_from_letter_data({
+                "--------",
+                "-----KBk",
+                "--------",
+                "--------",
+                "p-------",
+                "P-------",
+                "--------",
+                "--------",
+            });
+
+            CHECK(is_stalemate(board, Player::black));
+            CHECK(is_stalemate(board, Player::white) == false);
+            CHECK(get_win_condition(board) == WinCondition::stalemate);
         }
     }
 }

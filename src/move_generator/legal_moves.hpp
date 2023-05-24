@@ -7,5 +7,6 @@
 namespace chess {
 
 bool is_legal_move(Board& board, GameState game_state, Move move);
+bool is_check(const Board& board, Player player);
 
 }  // namespace chess

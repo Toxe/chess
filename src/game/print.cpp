@@ -150,25 +150,23 @@ std::string generate_ongoing_game_output()
     return "The game is not over yet.";
 }
 
-std::string generate_draw_output()
-{
-    return "Draw!";
-}
-
 std::string generate_checkmate_output(const Player player)
 {
     return fmt::format("Checkmate {}! {} won!", print_player_side(player), print_player_side(opposing_player(player)));
+}
+
+std::string generate_stalemate_output()
+{
+    return "Stalemate!";
 }
 
 std::string print_game_over(const WinCondition win_condition)
 {
     switch (win_condition) {
         case WinCondition::none: return generate_ongoing_game_output();
-        case WinCondition::draw: return generate_draw_output();
         case WinCondition::checkmate_white: return generate_checkmate_output(Player::white);
         case WinCondition::checkmate_black: return generate_checkmate_output(Player::black);
-        default:
-            throw std::runtime_error{"invalid win condition"};
+        case WinCondition::stalemate: return generate_stalemate_output();
     }
 }
 

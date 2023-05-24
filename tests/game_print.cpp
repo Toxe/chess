@@ -98,11 +98,6 @@ TEST_CASE("game/print")
             CHECK_THAT(print_game_over(WinCondition::none), Catch::Matchers::Equals("The game is not over yet."));
         }
 
-        SECTION("draw")
-        {
-            CHECK_THAT(print_game_over(WinCondition::draw), Catch::Matchers::Equals("Draw!"));
-        }
-
         SECTION("checkmate white")
         {
             CHECK_THAT(print_game_over(WinCondition::checkmate_white), Catch::Matchers::Equals("Checkmate White! Black won!"));
@@ -111,6 +106,11 @@ TEST_CASE("game/print")
         SECTION("checkmate black")
         {
             CHECK_THAT(print_game_over(WinCondition::checkmate_black), Catch::Matchers::Equals("Checkmate Black! White won!"));
+        }
+
+        SECTION("stalemate")
+        {
+            CHECK_THAT(print_game_over(WinCondition::stalemate), Catch::Matchers::Equals("Stalemate!"));
         }
     }
 }

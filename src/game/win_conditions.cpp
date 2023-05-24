@@ -15,6 +15,12 @@ WinCondition get_win_condition(const Board& board)
     if (is_checkmate(board, Player::black))
         return WinCondition::checkmate_black;
 
+    if (is_stalemate(board, Player::white))
+        return WinCondition::stalemate;
+
+    if (is_stalemate(board, Player::black))
+        return WinCondition::stalemate;
+
     return WinCondition::none;
 }
 
@@ -25,6 +31,21 @@ bool game_over(const WinCondition win_condition)
 
 bool is_checkmate(const Board& board, const Player player)
 {
+    if (!is_check(board, player))
+        return false;
+
+    Board board_copy = board;
+    GameState game_state;
+    const auto moves = list_moves(board_copy, player);
+
+    return std::none_of(moves.begin(), moves.end(), [&](const Move& move) { return is_legal_move(board_copy, game_state, move); });
+}
+
+bool is_stalemate(const Board& board, const Player player)
+{
+    if (is_check(board, player))
+        return false;
+
     Board board_copy = board;
     GameState game_state;
     const auto moves = list_moves(board_copy, player);
