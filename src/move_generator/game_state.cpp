@@ -8,6 +8,16 @@ namespace chess {
 
 GameState update_game_state(GameState game_state, const Move move)
 {
+    // halfmove clock
+    if (move.piece.type == PieceType::pawn || move.type == MoveType::capture || move.type == MoveType::capture_and_promotion || move.type == MoveType::en_passant)
+        game_state.halfmove_clock = 0;
+    else
+        ++game_state.halfmove_clock;
+
+    // fullmove counter
+    if (move.player() == Player::black)
+        ++game_state.fullmove_counter;
+
     // castling ability
     if (move.piece.type == PieceType::king) {
         if (move.player() == Player::white) {

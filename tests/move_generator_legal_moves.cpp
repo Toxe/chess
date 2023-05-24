@@ -65,8 +65,8 @@ TEST_CASE("move_generator/legal_moves")
                     "--------",
                 });
 
-                CHECK(is_legal_move(board, GameState{all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"g8"}, Piece{'k'})) == false);
-                CHECK(is_legal_move(board, GameState{all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"c8"}, Piece{'k'})) == false);
+                CHECK(is_legal_move(board, GameState{0, 1, all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"g8"}, Piece{'k'})) == false);
+                CHECK(is_legal_move(board, GameState{0, 1, all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"c8"}, Piece{'k'})) == false);
             }
 
             SECTION("white cannot castle queenside because that would place the king in check")
@@ -82,7 +82,7 @@ TEST_CASE("move_generator/legal_moves")
                     "R---K--R",
                 });
 
-                CHECK(is_legal_move(board, GameState{all_castling_rights, std::nullopt}, Move::create_castling({"e1"}, {"c1"}, Piece{'K'})) == false);
+                CHECK(is_legal_move(board, GameState{0, 1, all_castling_rights, std::nullopt}, Move::create_castling({"e1"}, {"c1"}, Piece{'K'})) == false);
             }
 
             SECTION("white can castle kingside even though the h1 rook is under attack")
@@ -98,7 +98,7 @@ TEST_CASE("move_generator/legal_moves")
                     "R---K--R",
                 });
 
-                CHECK(is_legal_move(board, GameState{all_castling_rights, std::nullopt}, Move::create_castling({"e1"}, {"g1"}, Piece{'K'})));
+                CHECK(is_legal_move(board, GameState{0, 1, all_castling_rights, std::nullopt}, Move::create_castling({"e1"}, {"g1"}, Piece{'K'})));
             }
 
             SECTION("black cannot castle kingside because the white queen attacks f8")
@@ -114,7 +114,7 @@ TEST_CASE("move_generator/legal_moves")
                     "--------",
                 });
 
-                CHECK(is_legal_move(board, GameState{all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"g8"}, Piece{'k'})) == false);
+                CHECK(is_legal_move(board, GameState{0, 1, all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"g8"}, Piece{'k'})) == false);
             }
 
             SECTION("black can castle queenside despite the white queen's attack on b8")
@@ -130,7 +130,7 @@ TEST_CASE("move_generator/legal_moves")
                     "--------",
                 });
 
-                CHECK(is_legal_move(board, GameState{all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"c8"}, Piece{'k'})));
+                CHECK(is_legal_move(board, GameState{0, 1, all_castling_rights, std::nullopt}, Move::create_castling({"e8"}, {"c8"}, Piece{'k'})));
             }
 
             SECTION("cannot castle if the castling ability flags aren't set")
@@ -168,14 +168,14 @@ TEST_CASE("move_generator/legal_moves")
 
             SECTION("can capture en passant if the en passant target square is set")
             {
-                CHECK(is_legal_move(board, GameState{CastlingAbility{}, Square{"g6"}}, Move::create_en_passant({"f5"}, {"g6"}, Piece{'P'})));
-                CHECK(is_legal_move(board, GameState{CastlingAbility{}, Square{"b3"}}, Move::create_en_passant({"c4"}, {"b3"}, Piece{'p'})));
+                CHECK(is_legal_move(board, GameState{0, 1, CastlingAbility{}, Square{"g6"}}, Move::create_en_passant({"f5"}, {"g6"}, Piece{'P'})));
+                CHECK(is_legal_move(board, GameState{0, 1, CastlingAbility{}, Square{"b3"}}, Move::create_en_passant({"c4"}, {"b3"}, Piece{'p'})));
             }
 
             SECTION("cannot capture en passant if the en passant target square is not set")
             {
-                CHECK(is_legal_move(board, GameState{CastlingAbility{}, Square{"b3"}}, Move::create_en_passant({"f5"}, {"g6"}, Piece{'P'})) == false);
-                CHECK(is_legal_move(board, GameState{CastlingAbility{}, Square{"g6"}}, Move::create_en_passant({"c4"}, {"b3"}, Piece{'p'})) == false);
+                CHECK(is_legal_move(board, GameState{0, 1, CastlingAbility{}, Square{"b3"}}, Move::create_en_passant({"f5"}, {"g6"}, Piece{'P'})) == false);
+                CHECK(is_legal_move(board, GameState{0, 1, CastlingAbility{}, Square{"g6"}}, Move::create_en_passant({"c4"}, {"b3"}, Piece{'p'})) == false);
 
                 CHECK(is_legal_move(board, GameState{}, Move::create_en_passant({"f5"}, {"g6"}, Piece{'P'})) == false);
                 CHECK(is_legal_move(board, GameState{}, Move::create_en_passant({"c4"}, {"b3"}, Piece{'p'})) == false);

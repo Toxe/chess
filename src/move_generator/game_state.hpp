@@ -8,6 +8,9 @@
 namespace chess {
 
 struct GameState {
+    int halfmove_clock = 0;
+    int fullmove_counter = 1;
+
     CastlingAbility castling_ability;
     std::optional<Square> en_passant_target_square;
 
@@ -15,6 +18,6 @@ struct GameState {
     bool operator!=(const GameState& other) const = default;
 };
 
-GameState update_game_state(GameState game_state, Move move);
+[[nodiscard]] GameState update_game_state(GameState game_state, Move move);
 
 }  // namespace chess
