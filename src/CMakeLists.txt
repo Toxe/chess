@@ -49,6 +49,8 @@ add_library(lib_chess
     move_generator/move_generator.hpp
     move_generator/moves.cpp
     move_generator/moves.hpp
+    move_generator/print.cpp
+    move_generator/print.hpp
     notation/fen.cpp
     notation/fen.hpp
     notation/fen_detail.cpp

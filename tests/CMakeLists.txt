@@ -24,6 +24,7 @@ if(BUILD_TESTING)
         move_generator_list_moves.cpp
         move_generator_move_generator.cpp
         move_generator_moves.cpp
+        move_generator_print.cpp
         notation_fen.cpp
         perft_perft.cpp
         perft_perft_divide.cpp
