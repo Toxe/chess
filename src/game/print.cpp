@@ -164,7 +164,7 @@ std::string print_game_over(const WinCondition win_condition)
 
 // ======== CastlingAbility =========================================
 
-std::string print_castling_ability(CastlingAbility castling_ability)
+std::string print_castling_ability(const CastlingAbility castling_ability)
 {
     if (castling_ability == CastlingAbility{})
         return "-";
