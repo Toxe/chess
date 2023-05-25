@@ -1,5 +1,4 @@
 #include "catch2/catch_test_macros.hpp"
-#include "catch2/matchers/catch_matchers_string.hpp"
 
 #include "../src/game/print.hpp"
 
@@ -95,23 +94,35 @@ TEST_CASE("game/print")
     {
         SECTION("game is not over")
         {
-            CHECK_THAT(print_game_over(WinCondition::none), Catch::Matchers::Equals("The game is not over yet."));
+            CHECK(print_game_over(WinCondition::none) == "The game is not over yet.");
         }
 
         SECTION("checkmate white")
         {
-            CHECK_THAT(print_game_over(WinCondition::checkmate_white), Catch::Matchers::Equals("Checkmate White! Black won!"));
+            CHECK(print_game_over(WinCondition::checkmate_white) == "Checkmate White! Black won!");
         }
 
         SECTION("checkmate black")
         {
-            CHECK_THAT(print_game_over(WinCondition::checkmate_black), Catch::Matchers::Equals("Checkmate Black! White won!"));
+            CHECK(print_game_over(WinCondition::checkmate_black) == "Checkmate Black! White won!");
         }
 
         SECTION("stalemate")
         {
-            CHECK_THAT(print_game_over(WinCondition::stalemate), Catch::Matchers::Equals("Stalemate!"));
+            CHECK(print_game_over(WinCondition::stalemate) == "Stalemate!");
         }
+    }
+
+    SECTION("print_castling_ability()")
+    {
+        CHECK(print_castling_ability(CastlingAbility{}) == "-");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::white_king}) == "K");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::white_queen}) == "Q");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::black_king}) == "k");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::black_queen}) == "q");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen}) == "KQ");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::black_king, CastlingRight::black_queen}) == "kq");
+        CHECK(print_castling_ability(CastlingAbility{CastlingRight::white_king, CastlingRight::white_queen, CastlingRight::black_king, CastlingRight::black_queen}) == "KQkq");
     }
 }
 

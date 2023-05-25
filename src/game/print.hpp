@@ -3,6 +3,7 @@
 #include <string>
 #include <string_view>
 
+#include "castling_ability.hpp"
 #include "move.hpp"
 #include "pieces.hpp"
 #include "player.hpp"
@@ -22,5 +23,7 @@ std::string print_piece_descriptive(Piece piece);
 std::string print_move(Move move);
 
 std::string print_game_over(WinCondition win_condition);
+
+std::string print_castling_ability(CastlingAbility castling_ability);
 
 }  // namespace chess

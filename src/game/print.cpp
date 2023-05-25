@@ -162,4 +162,28 @@ std::string print_game_over(const WinCondition win_condition)
     std::unreachable();
 }
 
+// ======== CastlingAbility =========================================
+
+std::string print_castling_ability(CastlingAbility castling_ability)
+{
+    if (castling_ability == CastlingAbility{})
+        return "-";
+
+    std::string s;
+
+    if (castling_ability.has(CastlingRight::white_king))
+        s += 'K';
+
+    if (castling_ability.has(CastlingRight::white_queen))
+        s += 'Q';
+
+    if (castling_ability.has(CastlingRight::black_king))
+        s += 'k';
+
+    if (castling_ability.has(CastlingRight::black_queen))
+        s += 'q';
+
+    return s;
+}
+
 }  // namespace chess
