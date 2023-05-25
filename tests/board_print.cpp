@@ -53,70 +53,163 @@ TEST_CASE("board/print")
 
     SECTION("print_board()")
     {
-        SECTION("empty board")
+        SECTION("format: simple")
         {
-            const std::string s = "\n"
-                                  "┌────────────────────────────┐\n"
-                                  "│8  ███   ███   ███   ███    │\n"
-                                  "│7     ███   ███   ███   ███ │\n"
-                                  "│6  ███   ███   ███   ███    │\n"
-                                  "│5     ███   ███   ███   ███ │\n"
-                                  "│4  ███   ███   ███   ███    │\n"
-                                  "│3     ███   ███   ███   ███ │\n"
-                                  "│2  ███   ███   ███   ███    │\n"
-                                  "│1     ███   ███   ███   ███ │\n"
-                                  "│                            │\n"
-                                  "│    a  b  c  d  e  f  g  h  │\n"
-                                  "└────────────────────────────┘\n"
-                                  "\n";
+            SECTION("empty board")
+            {
+                const std::string s = "\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "8  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "7  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "6  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "5  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "4  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "3  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "2  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "1  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "                                    \n"
+                                      "     a   b   c   d   e   f   g   h  \n"
+                                      "\n";
 
-            const Board board;
+                const Board board;
 
-            CHECK_THAT(print_board(board), Catch::Matchers::Equals(s));
+                CHECK_THAT(print_board(board, BoardPrintFormat::simple), Catch::Matchers::Equals(s));
+            }
+
+            SECTION("board with default pieces")
+            {
+                const std::string s = "\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "8  | r | n | b | q | k | b | n | r |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "7  | p | p | p | p | p | p | p | p |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "6  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "5  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "4  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "3  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "2  | P | P | P | P | P | P | P | P |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "1  | R | N | B | Q | K | B | N | R |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "                                    \n"
+                                      "     a   b   c   d   e   f   g   h  \n"
+                                      "\n";
+
+                const Board board = Board::create_with_default_pieces();
+
+                CHECK_THAT(print_board(board, BoardPrintFormat::simple), Catch::Matchers::Equals(s));
+            }
+
+            SECTION("board from FEN")
+            {
+                const std::string s = "\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "8  |   | k |   | r |   |   |   | r |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "7  | p | p |   |   |   |   | p | p |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "6  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "5  |   |   | p | p |   | p | q |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "4  |   |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "3  | P |   |   |   |   |   |   |   |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "2  | P | R | P |   |   | P |   | P |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "1  |   | Q |   |   |   | R |   | K |\n"
+                                      "   +---+---+---+---+---+---+---+---+\n"
+                                      "                                    \n"
+                                      "     a   b   c   d   e   f   g   h  \n"
+                                      "\n";
+
+                const auto fen = read_FEN("1k1r3r/pp4pp/8/2pp1pq1/8/P7/PRP2P1P/1Q3R1K b - - 0 18");
+
+                CHECK_THAT(print_board(fen.board, BoardPrintFormat::simple), Catch::Matchers::Equals(s));
+            }
         }
 
-        SECTION("board with default pieces")
+        SECTION("format: Unicode")
         {
-            const std::string s = "\n"
-                                  "┌────────────────────────────┐\n"
-                                  "│8  ▌♖▐ ♘ ▌♗▐ ♕ ▌♔▐ ♗ ▌♘▐ ♖  │\n"
-                                  "│7   ♙ ▌♙▐ ♙ ▌♙▐ ♙ ▌♙▐ ♙ ▌♙▐ │\n"
-                                  "│6  ███   ███   ███   ███    │\n"
-                                  "│5     ███   ███   ███   ███ │\n"
-                                  "│4  ███   ███   ███   ███    │\n"
-                                  "│3     ███   ███   ███   ███ │\n"
-                                  "│2  ▌♟▐ ♟ ▌♟▐ ♟ ▌♟▐ ♟ ▌♟▐ ♟  │\n"
-                                  "│1   ♜ ▌♞▐ ♝ ▌♛▐ ♚ ▌♝▐ ♞ ▌♜▐ │\n"
-                                  "│                            │\n"
-                                  "│    a  b  c  d  e  f  g  h  │\n"
-                                  "└────────────────────────────┘\n"
-                                  "\n";
+            SECTION("empty board")
+            {
+                const std::string s = "\n"
+                                      "┌────────────────────────────┐\n"
+                                      "│8  ███   ███   ███   ███    │\n"
+                                      "│7     ███   ███   ███   ███ │\n"
+                                      "│6  ███   ███   ███   ███    │\n"
+                                      "│5     ███   ███   ███   ███ │\n"
+                                      "│4  ███   ███   ███   ███    │\n"
+                                      "│3     ███   ███   ███   ███ │\n"
+                                      "│2  ███   ███   ███   ███    │\n"
+                                      "│1     ███   ███   ███   ███ │\n"
+                                      "│                            │\n"
+                                      "│    a  b  c  d  e  f  g  h  │\n"
+                                      "└────────────────────────────┘\n"
+                                      "\n";
 
-            const Board board = Board::create_with_default_pieces();
+                const Board board;
 
-            CHECK_THAT(print_board(board), Catch::Matchers::Equals(s));
-        }
+                CHECK_THAT(print_board(board, BoardPrintFormat::unicode), Catch::Matchers::Equals(s));
+            }
 
-        SECTION("board from FEN")
-        {
-            const std::string s = "\n"
-                                  "┌────────────────────────────┐\n"
-                                  "│8  ███ ♔ ███ ♖ ███   ███ ♖  │\n"
-                                  "│7   ♙ ▌♙▐   ███   ███ ♙ ▌♙▐ │\n"
-                                  "│6  ███   ███   ███   ███    │\n"
-                                  "│5     ███ ♙ ▌♙▐   ▌♙▐ ♕ ███ │\n"
-                                  "│4  ███   ███   ███   ███    │\n"
-                                  "│3   ♟ ███   ███   ███   ███ │\n"
-                                  "│2  ▌♟▐ ♜ ▌♟▐   ███ ♟ ███ ♟  │\n"
-                                  "│1     ▌♛▐   ███   ▌♜▐   ▌♚▐ │\n"
-                                  "│                            │\n"
-                                  "│    a  b  c  d  e  f  g  h  │\n"
-                                  "└────────────────────────────┘\n"
-                                  "\n";
+            SECTION("board with default pieces")
+            {
+                const std::string s = "\n"
+                                      "┌────────────────────────────┐\n"
+                                      "│8  ▌♖▐ ♘ ▌♗▐ ♕ ▌♔▐ ♗ ▌♘▐ ♖  │\n"
+                                      "│7   ♙ ▌♙▐ ♙ ▌♙▐ ♙ ▌♙▐ ♙ ▌♙▐ │\n"
+                                      "│6  ███   ███   ███   ███    │\n"
+                                      "│5     ███   ███   ███   ███ │\n"
+                                      "│4  ███   ███   ███   ███    │\n"
+                                      "│3     ███   ███   ███   ███ │\n"
+                                      "│2  ▌♟▐ ♟ ▌♟▐ ♟ ▌♟▐ ♟ ▌♟▐ ♟  │\n"
+                                      "│1   ♜ ▌♞▐ ♝ ▌♛▐ ♚ ▌♝▐ ♞ ▌♜▐ │\n"
+                                      "│                            │\n"
+                                      "│    a  b  c  d  e  f  g  h  │\n"
+                                      "└────────────────────────────┘\n"
+                                      "\n";
 
-            const auto fen = read_FEN("1k1r3r/pp4pp/8/2pp1pq1/8/P7/PRP2P1P/1Q3R1K b - - 0 18");
+                const Board board = Board::create_with_default_pieces();
 
-            CHECK_THAT(print_board(fen.board), Catch::Matchers::Equals(s));
+                CHECK_THAT(print_board(board, BoardPrintFormat::unicode), Catch::Matchers::Equals(s));
+            }
+
+            SECTION("board from FEN")
+            {
+                const std::string s = "\n"
+                                      "┌────────────────────────────┐\n"
+                                      "│8  ███ ♔ ███ ♖ ███   ███ ♖  │\n"
+                                      "│7   ♙ ▌♙▐   ███   ███ ♙ ▌♙▐ │\n"
+                                      "│6  ███   ███   ███   ███    │\n"
+                                      "│5     ███ ♙ ▌♙▐   ▌♙▐ ♕ ███ │\n"
+                                      "│4  ███   ███   ███   ███    │\n"
+                                      "│3   ♟ ███   ███   ███   ███ │\n"
+                                      "│2  ▌♟▐ ♜ ▌♟▐   ███ ♟ ███ ♟  │\n"
+                                      "│1     ▌♛▐   ███   ▌♜▐   ▌♚▐ │\n"
+                                      "│                            │\n"
+                                      "│    a  b  c  d  e  f  g  h  │\n"
+                                      "└────────────────────────────┘\n"
+                                      "\n";
+
+                const auto fen = read_FEN("1k1r3r/pp4pp/8/2pp1pq1/8/P7/PRP2P1P/1Q3R1K b - - 0 18");
+
+                CHECK_THAT(print_board(fen.board, BoardPrintFormat::unicode), Catch::Matchers::Equals(s));
+            }
         }
     }
 }

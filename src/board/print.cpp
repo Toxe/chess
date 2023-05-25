@@ -1,7 +1,8 @@
 #include "print.hpp"
 
-#include <cassert>
+#include <memory>
 #include <sstream>
+#include <utility>
 
 #include "../game/print.hpp"
 
@@ -16,66 +17,98 @@ std::string print_square(const Square square)
 
 // ======== Board ===================================================
 
-void output_empty_line(std::stringstream& out)
-{
-    out << '\n';
-}
+class BoardPrinter {
+public:
+    virtual ~BoardPrinter() = default;
 
-void output_top_border(std::stringstream& out)
-{
-    out << "┌────────────────────────────┐\n";
-}
+    [[nodiscard]] std::string str() { return out_.str(); }
 
-void output_bottom_border(std::stringstream& out)
-{
-    out << "└────────────────────────────┘\n";
-}
+    void print_empty_line() { out_ << '\n'; }
+    virtual void print_top_border() = 0;
+    virtual void print_bottom_border() = 0;
+    virtual void print_delimiter_row() = 0;
+    virtual void print_column_legend() = 0;
+    virtual void print_row_begin(int row) = 0;
+    virtual void print_row_end() = 0;
+    virtual void print_square(Square square, Piece piece) = 0;
 
-void output_column_legend(std::stringstream& out)
-{
-    out << "│                            │\n"
-        << "│    a  b  c  d  e  f  g  h  │\n";
-}
+protected:
+    [[nodiscard]] std::stringstream& out() { return out_; }
 
-void output_square(std::stringstream& out, const Square square, const Piece piece)
-{
-    const bool is_white_square = (square.x + square.y) % 2 == 0;
+private:
+    std::stringstream out_;
+};
 
-    if (piece == no_piece) {
-        out << (is_white_square ? "███" : "   ");
-    } else {
-        if (is_white_square)
-            out << "▌" << print_piece_symbol(piece) << "▐";
-        else
-            out << ' ' << print_piece_symbol(piece) << ' ';
+class BoardSimplePrinter : public BoardPrinter {
+public:
+    void print_top_border() override { }
+    void print_bottom_border() override { }
+    void print_delimiter_row() override { out() << "   +---+---+---+---+---+---+---+---+\n"; }
+    void print_column_legend() override { out() << "                                    \n     a   b   c   d   e   f   g   h  \n"; }
+    void print_row_begin(const int row) override { out() << (8 - row) << "  "; }
+    void print_row_end() override { out() << "|\n"; }
+    void print_square(const Square, const Piece piece) override { out() << "| " << (piece == no_piece ? ' ' : print_piece_letter(piece)) << " "; }
+};
+
+class BoardUnicodePrinter : public BoardPrinter {
+public:
+    void print_top_border() override { out() << "┌────────────────────────────┐\n"; }
+    void print_bottom_border() override { out() << "└────────────────────────────┘\n"; }
+    void print_delimiter_row() override { }
+    void print_column_legend() override { out() << "│                            │\n│    a  b  c  d  e  f  g  h  │\n"; }
+    void print_row_begin(const int row) override { out() << "│" << (8 - row) << "  "; }
+    void print_row_end() override { out() << " │\n"; }
+
+    void print_square(const Square square, const Piece piece) override
+    {
+        const bool is_white_square = (square.x + square.y) % 2 == 0;
+
+        if (piece == no_piece) {
+            out() << (is_white_square ? "███" : "   ");
+        } else {
+            if (is_white_square)
+                out() << "▌" << print_piece_symbol(piece) << "▐";
+            else
+                out() << ' ' << print_piece_symbol(piece) << ' ';
+        }
     }
+};
+
+std::unique_ptr<BoardPrinter> create_board_printer(const BoardPrintFormat format)
+{
+    switch (format) {
+        case BoardPrintFormat::simple: return std::make_unique<BoardSimplePrinter>();
+        case BoardPrintFormat::unicode: return std::make_unique<BoardUnicodePrinter>();
+    }
+
+    std::unreachable();
 }
 
-void output_row(std::stringstream& out, const Board& board, const int row)
+std::string print_board(const Board& board, const BoardPrintFormat format)
 {
-    out << "│" << (8 - row) << "  ";
+    std::unique_ptr<BoardPrinter> printer = create_board_printer(format);
 
-    for (Square square{0, row}; square.x < board.cols(); ++square.x)
-        output_square(out, square, board.piece(square));
+    printer->print_empty_line();
+    printer->print_top_border();
 
-    out << " │\n";
-}
+    for (int row = 0; row < board.rows(); ++row) {
+        printer->print_delimiter_row();
+        printer->print_row_begin(row);
 
-std::string print_board(const Board& board)
-{
-    std::stringstream out;
+        for (Square square{0, row}; square.x < board.cols(); ++square.x)
+            printer->print_square(square, board.piece(square));
 
-    output_empty_line(out);
-    output_top_border(out);
+        printer->print_row_end();
 
-    for (int row = 0; row < board.rows(); ++row)
-        output_row(out, board, row);
+        if (row == 7)
+            printer->print_delimiter_row();
+    }
 
-    output_column_legend(out);
-    output_bottom_border(out);
-    output_empty_line(out);
+    printer->print_column_legend();
+    printer->print_bottom_border();
+    printer->print_empty_line();
 
-    return out.str();
+    return printer->str();
 }
 
 }  // namespace chess
