@@ -9,7 +9,8 @@ namespace chess {
 class Board;
 class GamePlayers;
 class ConsoleWriter;
+struct GameState;
 
-Command PlayerMoveCommand(GamePlayers* game_players, Board* board, ConsoleWriter* console_writer, Move move);
+Command PlayerMoveCommand(Board* board, GameState* game_state, GamePlayers* game_players, ConsoleWriter* console_writer, Move move);
 
 }  // namespace chess

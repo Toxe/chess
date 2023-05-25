@@ -8,6 +8,7 @@
 #include "../src/command/command_factory.hpp"
 #include "../src/game/game_players.hpp"
 #include "../src/input/eval_input.hpp"
+#include "../src/move_generator/game_state.hpp"
 #include "../src/output/console_writer.hpp"
 
 namespace chess {
@@ -17,10 +18,11 @@ TEST_CASE("input/eval_input")
     SECTION("eval_input()")
     {
         Board board = Board::create_with_default_pieces();
+        GameState game_state;
         GamePlayers game_players{PlayerType::human, PlayerType::human};
         AppController controller;
         ConsoleWriter console_writer{false};
-        const CommandFactory command_factory{board, game_players, controller, console_writer};
+        const CommandFactory command_factory{board, game_state, game_players, controller, console_writer};
 
         SECTION("empty input returns an invalid command (nullopt)")
         {

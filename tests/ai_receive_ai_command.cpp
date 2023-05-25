@@ -8,6 +8,7 @@
 #include "../src/board/board.hpp"
 #include "../src/command/command_factory.hpp"
 #include "../src/game/game_players.hpp"
+#include "../src/move_generator/game_state.hpp"
 #include "../src/output/console_writer.hpp"
 
 namespace chess {
@@ -15,6 +16,7 @@ namespace chess {
 TEST_CASE("ai/receive_ai_command")
 {
     GamePlayers game_players{PlayerType::ai, PlayerType::ai};
+    GameState game_state;
     AppController controller;
     ConsoleWriter console_writer{false};
 
@@ -33,7 +35,7 @@ TEST_CASE("ai/receive_ai_command")
             });
 
             const Board orig_board = board;
-            const CommandFactory command_factory{board, game_players, controller, console_writer};
+            const CommandFactory command_factory{board, game_state, game_players, controller, console_writer};
 
             auto command = receive_ai_command(player, board, command_factory, console_writer);
             controller.execute(std::move(command));

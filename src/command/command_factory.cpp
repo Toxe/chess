@@ -27,7 +27,7 @@ Command CommandFactory::create_redo_command() const
 
 Command CommandFactory::create_player_move_command(const Move move) const
 {
-    return PlayerMoveCommand(game_players_, board_, console_writer_, move);
+    return PlayerMoveCommand(board_, game_state_, game_players_, console_writer_, move);
 }
 
 }  // namespace chess

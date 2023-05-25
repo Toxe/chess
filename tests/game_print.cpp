@@ -92,25 +92,11 @@ TEST_CASE("game/print")
 
     SECTION("print_game_over()")
     {
-        SECTION("game is not over")
-        {
-            CHECK(print_game_over(WinCondition::none) == "The game is not over yet.");
-        }
-
-        SECTION("checkmate white")
-        {
-            CHECK(print_game_over(WinCondition::checkmate_white) == "Checkmate White! Black won!");
-        }
-
-        SECTION("checkmate black")
-        {
-            CHECK(print_game_over(WinCondition::checkmate_black) == "Checkmate Black! White won!");
-        }
-
-        SECTION("stalemate")
-        {
-            CHECK(print_game_over(WinCondition::stalemate) == "Stalemate!");
-        }
+        CHECK(print_game_over(WinCondition::none) == "The game is not over yet.");
+        CHECK(print_game_over(WinCondition::checkmate_white) == "Checkmate White! Black won.");
+        CHECK(print_game_over(WinCondition::checkmate_black) == "Checkmate Black! White won.");
+        CHECK(print_game_over(WinCondition::stalemate) == "Draw: Stalemate.");
+        CHECK(print_game_over(WinCondition::fifty_move_rule) == "Draw: Fifty-move rule.");
     }
 
     SECTION("print_castling_ability()")

@@ -142,12 +142,17 @@ std::string generate_ongoing_game_output()
 
 std::string generate_checkmate_output(const Player player)
 {
-    return fmt::format("Checkmate {}! {} won!", print_player_side(player), print_player_side(opposing_player(player)));
+    return fmt::format("Checkmate {}! {} won.", print_player_side(player), print_player_side(opposing_player(player)));
 }
 
 std::string generate_stalemate_output()
 {
-    return "Stalemate!";
+    return "Draw: Stalemate.";
+}
+
+std::string generate_fifty_move_rule()
+{
+    return "Draw: Fifty-move rule.";
 }
 
 std::string print_game_over(const WinCondition win_condition)
@@ -157,6 +162,7 @@ std::string print_game_over(const WinCondition win_condition)
         case WinCondition::checkmate_white: return generate_checkmate_output(Player::white);
         case WinCondition::checkmate_black: return generate_checkmate_output(Player::black);
         case WinCondition::stalemate: return generate_stalemate_output();
+        case WinCondition::fifty_move_rule: return generate_fifty_move_rule();
     }
 
     std::unreachable();

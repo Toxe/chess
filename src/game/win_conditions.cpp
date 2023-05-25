@@ -7,7 +7,7 @@
 
 namespace chess {
 
-WinCondition get_win_condition(const Board& board)
+WinCondition get_win_condition(const Board& board, const GameState game_state)
 {
     if (is_checkmate(board, Player::white))
         return WinCondition::checkmate_white;
@@ -20,6 +20,9 @@ WinCondition get_win_condition(const Board& board)
 
     if (is_stalemate(board, Player::black))
         return WinCondition::stalemate;
+
+    if (is_fifty_move_rule(game_state))
+        return WinCondition::fifty_move_rule;
 
     return WinCondition::none;
 }
@@ -51,6 +54,11 @@ bool is_stalemate(const Board& board, const Player player)
     const auto moves = list_moves(board_copy, player);
 
     return std::none_of(moves.begin(), moves.end(), [&](const Move& move) { return is_legal_move(board_copy, game_state, move); });
+}
+
+bool is_fifty_move_rule(const GameState game_state)
+{
+    return game_state.halfmove_clock >= 50;
 }
 
 }  // namespace chess
