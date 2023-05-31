@@ -24,4 +24,6 @@ bool player_is_valid(Player player);
 
 Player opposing_player(Player player);
 
+Player player_from_char(char c);
+
 }  // namespace chess

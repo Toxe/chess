@@ -34,6 +34,25 @@ TEST_CASE("game/player")
         CHECK(opposing_player(Player::white) == Player::black);
         CHECK(opposing_player(Player::black) == Player::white);
     }
+
+    SECTION("return Player from char")
+    {
+        CHECK(player_from_char('p') == Player::black);
+        CHECK(player_from_char('n') == Player::black);
+        CHECK(player_from_char('b') == Player::black);
+        CHECK(player_from_char('r') == Player::black);
+        CHECK(player_from_char('q') == Player::black);
+        CHECK(player_from_char('k') == Player::black);
+        CHECK(player_from_char('P') == Player::white);
+        CHECK(player_from_char('N') == Player::white);
+        CHECK(player_from_char('B') == Player::white);
+        CHECK(player_from_char('R') == Player::white);
+        CHECK(player_from_char('Q') == Player::white);
+        CHECK(player_from_char('K') == Player::white);
+        CHECK(player_from_char('-') == Player::none);
+        CHECK(player_from_char('?') == Player::none);
+        CHECK(player_from_char('1') == Player::none);
+    }
 }
 
 }  // namespace chess

@@ -30,4 +30,26 @@ Player opposing_player(const Player player)
     return player == Player::white ? Player::black : Player::white;
 }
 
+Player player_from_char(const char c)
+{
+    switch (c) {
+        case 'p':
+        case 'n':
+        case 'b':
+        case 'r':
+        case 'q':
+        case 'k':
+            return Player::black;
+        case 'P':
+        case 'N':
+        case 'B':
+        case 'R':
+        case 'Q':
+        case 'K':
+            return Player::white;
+        default:
+            return Player::none;
+    }
+}
+
 }  // namespace chess
