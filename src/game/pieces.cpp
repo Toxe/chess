@@ -1,66 +1,30 @@
 #include "pieces.hpp"
 
-#include <cassert>
-
 namespace chess {
 
-Piece::Piece(const char letter)
+PieceType piece_type_from_char(char c)
 {
-    assert(letter == '-' || letter == 'p' || letter == 'n' || letter == 'b' || letter == 'r' || letter == 'q' || letter == 'k' || letter == 'P' || letter == 'N' || letter == 'B' || letter == 'R' || letter == 'Q' || letter == 'K');
-
-    switch (letter) {
+    switch (c) {
         case 'p':
-            player = Player::black;
-            type = PieceType::pawn;
-            break;
         case 'P':
-            player = Player::white;
-            type = PieceType::pawn;
-            break;
+            return PieceType::pawn;
         case 'n':
-            player = Player::black;
-            type = PieceType::knight;
-            break;
         case 'N':
-            player = Player::white;
-            type = PieceType::knight;
-            break;
+            return PieceType::knight;
         case 'b':
-            player = Player::black;
-            type = PieceType::bishop;
-            break;
         case 'B':
-            player = Player::white;
-            type = PieceType::bishop;
-            break;
+            return PieceType::bishop;
         case 'r':
-            player = Player::black;
-            type = PieceType::rook;
-            break;
         case 'R':
-            player = Player::white;
-            type = PieceType::rook;
-            break;
+            return PieceType::rook;
         case 'q':
-            player = Player::black;
-            type = PieceType::queen;
-            break;
         case 'Q':
-            player = Player::white;
-            type = PieceType::queen;
-            break;
+            return PieceType::queen;
         case 'k':
-            player = Player::black;
-            type = PieceType::king;
-            break;
         case 'K':
-            player = Player::white;
-            type = PieceType::king;
-            break;
+            return PieceType::king;
         default:
-            player = Player::none;
-            type = PieceType::none;
-            break;
+            return PieceType::none;
     }
 }
 

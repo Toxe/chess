@@ -14,12 +14,15 @@ enum class PieceType : char {
     king
 };
 
+PieceType piece_type_from_char(char c);
+
 struct Piece {
     Player player;
     PieceType type;
 
     constexpr Piece(Player p, PieceType t) : player{p}, type{t} { }
-    explicit Piece(char letter);
+    explicit Piece(char c) : player{player_from_char(c)}, type{piece_type_from_char(c)} { }
+    Piece(Player p, char c) : player{p}, type{piece_type_from_char(c)} { }
 
     bool operator==(const Piece& other) const = default;
     bool operator!=(const Piece& other) const = default;
