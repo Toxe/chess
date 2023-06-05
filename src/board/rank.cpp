@@ -4,7 +4,7 @@
 
 namespace chess {
 
-int nth_rank(const Player player, const int nth)
+Square::coordinates_type nth_rank(const Player player, const char nth)
 {
     assert(player_is_valid(player));
     assert(nth >= 1 && nth <= 8);

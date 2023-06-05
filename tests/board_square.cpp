@@ -62,6 +62,10 @@ TEST_CASE("board/square")
         CHECK(read_square("c7") == Square{2, 1});
         CHECK(read_square("h8") == Square{7, 0});
 
+        CHECK(read_square("a0") == std::nullopt);
+        CHECK(read_square("a9") == std::nullopt);
+        CHECK(read_square("@3") == std::nullopt);
+        CHECK(read_square("i3") == std::nullopt);
         CHECK(read_square("") == std::nullopt);
         CHECK(read_square("?") == std::nullopt);
         CHECK(read_square("b") == std::nullopt);

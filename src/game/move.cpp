@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cmath>
 
+#include "../board/file.hpp"
 #include "../board/rank.hpp"
 
 namespace chess {
@@ -42,7 +43,8 @@ Move Move::create_castling(const Square move_from, const Square move_to, const P
 {
     assert(moved_piece.type == PieceType::king);
     assert(on_home_rank(moved_piece.player, move_from) && on_home_rank(moved_piece.player, move_to));
-    assert((castling_kingside(move_to) && move_from.x == 4 && move_to.x == 6) || (castling_queenside(move_to) && move_from.x == 4 && move_to.x == 2));
+    assert(move_from.x == from_file('e'));
+    assert((castling_kingside(move_to) && move_to.x == from_file('g')) || (castling_queenside(move_to) && move_to.x == from_file('c')));
 
     return Move{move_from, move_to, moved_piece, no_piece, MoveType::castling};
 }
@@ -98,15 +100,15 @@ void make_move(Board& board, const Move move)
 
             // kingside or queenside?
             if (castling_kingside(move.to)) {
-                assert(board.piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}) == no_piece);
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}) == Piece{move.player(), PieceType::rook}));
-                board.change_piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}, Piece{move.player(), PieceType::rook});
-                board.change_piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}, no_piece);
+                assert(board.piece(Square{from_file('f'), move.to.y}) == no_piece);
+                assert((board.piece(Square{from_file('h'), move.to.y}) == Piece{move.player(), PieceType::rook}));
+                board.change_piece(Square{from_file('f'), move.to.y}, Piece{move.player(), PieceType::rook});
+                board.change_piece(Square{from_file('h'), move.to.y}, no_piece);
             } else {
-                assert(board.piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}) == no_piece);
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}) == Piece{move.player(), PieceType::rook}));
-                board.change_piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}, Piece{move.player(), PieceType::rook});
-                board.change_piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}, no_piece);
+                assert(board.piece(Square{from_file('d'), move.to.y}) == no_piece);
+                assert((board.piece(Square{from_file('a'), move.to.y}) == Piece{move.player(), PieceType::rook}));
+                board.change_piece(Square{from_file('d'), move.to.y}, Piece{move.player(), PieceType::rook});
+                board.change_piece(Square{from_file('a'), move.to.y}, no_piece);
             }
             break;
 
@@ -163,15 +165,15 @@ void undo_move(Board& board, const Move move)
 
             // kingside or queenside?
             if (castling_kingside(move.to)) {
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}) == Piece{move.player(), PieceType::rook}));
-                assert(board.piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}) == no_piece);
-                board.change_piece(Square{static_cast<Square::coordinates_type>(5), move.to.y}, no_piece);
-                board.change_piece(Square{static_cast<Square::coordinates_type>(7), move.to.y}, Piece{move.player(), PieceType::rook});
+                assert((board.piece(Square{from_file('f'), move.to.y}) == Piece{move.player(), PieceType::rook}));
+                assert(board.piece(Square{from_file('h'), move.to.y}) == no_piece);
+                board.change_piece(Square{from_file('f'), move.to.y}, no_piece);
+                board.change_piece(Square{from_file('h'), move.to.y}, Piece{move.player(), PieceType::rook});
             } else {
-                assert((board.piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}) == Piece{move.player(), PieceType::rook}));
-                assert(board.piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}) == no_piece);
-                board.change_piece(Square{static_cast<Square::coordinates_type>(3), move.to.y}, no_piece);
-                board.change_piece(Square{static_cast<Square::coordinates_type>(0), move.to.y}, Piece{move.player(), PieceType::rook});
+                assert((board.piece(Square{from_file('d'), move.to.y}) == Piece{move.player(), PieceType::rook}));
+                assert(board.piece(Square{from_file('a'), move.to.y}) == no_piece);
+                board.change_piece(Square{from_file('d'), move.to.y}, no_piece);
+                board.change_piece(Square{from_file('a'), move.to.y}, Piece{move.player(), PieceType::rook});
             }
             break;
 
@@ -188,12 +190,12 @@ void undo_move(Board& board, const Move move)
 
 bool castling_kingside(const Square move_to)
 {
-    return move_to.x == 6;
+    return move_to.x == from_file('g');
 }
 
 bool castling_queenside(const Square move_to)
 {
-    return move_to.x == 2;
+    return move_to.x == from_file('c');
 }
 
 }  // namespace chess

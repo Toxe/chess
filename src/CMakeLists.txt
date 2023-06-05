@@ -7,6 +7,7 @@ add_library(lib_chess
     app/commands.hpp
     board/board.cpp
     board/board.hpp
+    board/file.hpp
     board/print.cpp
     board/print.hpp
     board/rank.cpp

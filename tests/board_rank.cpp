@@ -48,6 +48,41 @@ TEST_CASE("board/rank")
         CHECK(on_second_rank(Player::white, Square{"a7"}) == false);
         CHECK(on_second_rank(Player::white, Square{"a8"}) == false);
     }
+
+    SECTION("is_valid_rank_char()")
+    {
+        CHECK(is_valid_rank_char('1'));
+        CHECK(is_valid_rank_char('2'));
+        CHECK(is_valid_rank_char('3'));
+        CHECK(is_valid_rank_char('6'));
+        CHECK(is_valid_rank_char('7'));
+        CHECK(is_valid_rank_char('8'));
+
+        CHECK(is_valid_rank_char('0') == false);
+        CHECK(is_valid_rank_char('9') == false);
+        CHECK(is_valid_rank_char('-') == false);
+        CHECK(is_valid_rank_char('\0') == false);
+    }
+
+    SECTION("from_rank()")
+    {
+        CHECK(from_rank('8') == 0);
+        CHECK(from_rank('7') == 1);
+        CHECK(from_rank('6') == 2);
+        CHECK(from_rank('3') == 5);
+        CHECK(from_rank('2') == 6);
+        CHECK(from_rank('1') == 7);
+    }
+
+    SECTION("to_rank()")
+    {
+        CHECK(to_rank(0) == '8');
+        CHECK(to_rank(1) == '7');
+        CHECK(to_rank(2) == '6');
+        CHECK(to_rank(5) == '3');
+        CHECK(to_rank(6) == '2');
+        CHECK(to_rank(7) == '1');
+    }
 }
 
 }  // namespace chess

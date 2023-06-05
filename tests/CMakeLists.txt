@@ -4,6 +4,7 @@ if(BUILD_TESTING)
         app_app_controller.cpp
         app_commands.cpp
         board_board.cpp
+        board_file.cpp
         board_print.cpp
         board_rank.cpp
         board_square.cpp

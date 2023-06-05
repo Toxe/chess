@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 
+#include "../board/file.hpp"
 #include "list_moves.hpp"
 
 namespace chess {
@@ -53,7 +54,7 @@ bool can_castle(Board& board, const GameState game_state, const Move move)
             return false;
     }
 
-    const Square square_under_attack{kingside ? static_cast<Square::coordinates_type>(5) : static_cast<Square::coordinates_type>(3), move.to.y};
+    const Square square_under_attack{from_file(kingside ? 'f' : 'd'), move.to.y};
 
     if (would_square_be_under_attack(board, move, square_under_attack))
         return false;

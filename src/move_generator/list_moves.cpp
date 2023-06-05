@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <utility>
 
+#include "../board/file.hpp"
 #include "../board/rank.hpp"
 #include "list_moves_detail.hpp"
 
@@ -292,18 +293,18 @@ int create_king_castling_moves(const Board& board, const BoardPiece board_piece,
     assert(board.piece(board_piece.square) == board_piece.piece);
 
     const auto num_previous_moves = moves.size();
-    const int first_rank = nth_rank(board_piece.piece.player, 1);
+    const auto home_rank = nth_rank(board_piece.piece.player, 1);
 
-    if (board_piece.square == Square{4, first_rank}) {
+    if (board_piece.square == Square{from_file('e'), home_rank}) {
         // kingside
-        if (board.piece(Square{7, first_rank}) == Piece{board_piece.piece.player, PieceType::rook})
-            if (board.empty_square(Square{4 + 1, first_rank}) && board.empty_square(Square{4 + 2, first_rank}))
-                moves.push_back(Move::create_castling(board_piece.square, Square{4 + 2, first_rank}, board_piece.piece));
+        if (board.piece(Square{from_file('h'), home_rank}) == Piece{board_piece.piece.player, PieceType::rook})
+            if (board.empty_square(Square{from_file('f'), home_rank}) && board.empty_square(Square{from_file('g'), home_rank}))
+                moves.push_back(Move::create_castling(board_piece.square, Square{from_file('g'), home_rank}, board_piece.piece));
 
         // queenside
-        if (board.piece(Square{0, first_rank}) == Piece{board_piece.piece.player, PieceType::rook})
-            if (board.empty_square(Square{4 - 3, first_rank}) && board.empty_square(Square{4 - 2, first_rank}) && board.empty_square(Square{4 - 1, first_rank}))
-                moves.push_back(Move::create_castling(board_piece.square, Square{4 - 2, first_rank}, board_piece.piece));
+        if (board.piece(Square{from_file('a'), home_rank}) == Piece{board_piece.piece.player, PieceType::rook})
+            if (board.empty_square(Square{from_file('b'), home_rank}) && board.empty_square(Square{from_file('c'), home_rank}) && board.empty_square(Square{from_file('d'), home_rank}))
+                moves.push_back(Move::create_castling(board_piece.square, Square{from_file('c'), home_rank}, board_piece.piece));
     }
 
     return static_cast<int>(moves.size() - num_previous_moves);

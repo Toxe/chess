@@ -72,7 +72,7 @@ GameState update_en_passant_target_square(GameState game_state, const Move move)
     if (move.piece.type == PieceType::pawn)
         if (on_second_rank(move.player(), move.from))  // from 2nd...
             if (move.to.y == nth_rank(move.player(), 4))  // ...to 4th rank?
-                game_state.en_passant_target_square = Square{move.from.x, static_cast<Square::coordinates_type>(nth_rank(move.player(), 3))};
+                game_state.en_passant_target_square = Square{move.from.x, nth_rank(move.player(), 3)};
 
     return game_state;
 }
