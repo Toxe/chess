@@ -41,7 +41,7 @@ bool is_checkmate(const Board& board, const Player player)
     GameState game_state;
     const auto moves = list_moves(board_copy, player);
 
-    return std::none_of(moves.begin(), moves.end(), [&](const Move& move) { return is_legal_move(board_copy, game_state, move); });
+    return std::none_of(moves.begin(), moves.end(), [&](const Move& move) { return check_legal_move(board_copy, game_state, move) == MoveLegality::ok; });
 }
 
 bool is_stalemate(const Board& board, const Player player)
@@ -53,7 +53,7 @@ bool is_stalemate(const Board& board, const Player player)
     GameState game_state;
     const auto moves = list_moves(board_copy, player);
 
-    return std::none_of(moves.begin(), moves.end(), [&](const Move& move) { return is_legal_move(board_copy, game_state, move); });
+    return std::none_of(moves.begin(), moves.end(), [&](const Move& move) { return check_legal_move(board_copy, game_state, move) == MoveLegality::ok; });
 }
 
 bool is_fifty_move_rule(const GameState game_state)
