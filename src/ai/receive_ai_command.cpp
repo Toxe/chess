@@ -11,7 +11,7 @@
 
 namespace chess {
 
-Command receive_ai_command(const Player player, const Board& board, const CommandFactory& command_factory, ConsoleWriter& console_writer)
+Command receive_ai_command(const Player player, const Board& board, const GameState, const CommandFactory& command_factory, ConsoleWriter&)
 {
     // MoveGeneratorStats stats;
     Board test_board = board;

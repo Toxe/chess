@@ -37,7 +37,7 @@ TEST_CASE("ai/receive_ai_command")
             const Board orig_board = board;
             const CommandFactory command_factory{board, game_state, game_players, controller, console_writer};
 
-            auto command = receive_ai_command(player, board, command_factory, console_writer);
+            auto command = receive_ai_command(player, board, game_state, command_factory, console_writer);
             controller.execute(std::move(command));
 
             CHECK(board != orig_board);

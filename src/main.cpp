@@ -32,7 +32,7 @@ int main()
         console_writer.write(print_board(board, board_print_format));
         console_writer.writeln(print_game_state(game_state));
 
-        auto command = is_human_player ? receive_player_command(player, board, console_writer, command_factory) : receive_ai_command(player, board, command_factory, console_writer);
+        auto command = is_human_player ? receive_player_command(player, board, game_state, console_writer, command_factory) : receive_ai_command(player, board, game_state, command_factory, console_writer);
         controller.execute(std::move(command));
     }
 
